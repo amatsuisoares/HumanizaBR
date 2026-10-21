@@ -122,7 +122,7 @@
   {
     "id": "res-03", "category": "ressalvas", "mode": "profissional",
     "text": "Se o fornecedor confirmar até sexta, provavelmente conseguimos entregar o projeto no prazo, mas isso ainda não está garantido.",
-    "must_keep_any": [["se o fornecedor", "caso o fornecedor"], ["sexta"], ["provavelmente", "é provável", "possivelmente", "a tendência"], ["não está garantid", "não há garantia", "sem garantia", "não é garantid", "não está assegurad", "não é assegurad", "não esteja garantid"]]
+    "must_keep_any": [["se o fornecedor", "caso o fornecedor"], ["sexta"], ["provavelmente", "é provável", "possivelmente", "a tendência"], ["não está garantid", "não há garantia", "sem garantia", "não é garantid", "não está assegurad", "não é assegurad"]]
   },
   {
     "id": "neg-01", "category": "negacao", "mode": "natural",
@@ -189,36 +189,36 @@
     "must_not_contain": ["a gente", " ta "]
   },
   {
-    "id": "exp-01", "category": "expressivo", "mode": "expressivo", "max_length_ratio": 1.6,
+    "id": "exp-01", "category": "expressivo", "mode": "expressivo",
     "text": "Além disso, é fundamental destacar que a inteligência artificial desempenha um papel crucial no cenário atual. Ela é utilizada em diversas áreas. Ela é utilizada na saúde, na educação e no comércio. Em 2024, 72% das empresas brasileiras declararam usar alguma ferramenta de IA.",
     "must_keep": ["2024", "72%"],
     "must_keep_any": [["saúde"], ["educação"], ["comércio"]]
   },
   {
-    "id": "exp-02", "category": "expressivo", "mode": "expressivo", "max_length_ratio": 1.6,
+    "id": "exp-02", "category": "expressivo", "mode": "expressivo",
     "text": "O relatório foi elaborado pela equipe de dados e foi enviado à diretoria na sexta-feira. Os resultados foram analisados e foi constatado que as vendas caíram 8% no segundo trimestre. Medidas serão tomadas.",
     "must_keep": ["8%"],
     "must_keep_any": [["sexta-feira", "sexta"], ["segundo trimestre"], ["diretoria"]]
   },
   {
-    "id": "exp-03", "category": "expressivo", "mode": "expressivo", "max_length_ratio": 1.6,
+    "id": "exp-03", "category": "expressivo", "mode": "expressivo",
     "text": "A leitura é essencial para o desenvolvimento humano. A leitura amplia o vocabulário. A leitura estimula a imaginação. A leitura melhora a escrita. Em suma, ler é fundamental para todos.",
     "must_keep_any": [["vocabulário"], ["imaginação"], ["escrita", "escrever"]]
   },
   {
-    "id": "exp-04", "category": "expressivo", "mode": "expressivo", "max_length_ratio": 1.6,
+    "id": "exp-04", "category": "expressivo", "mode": "expressivo",
     "text": "Vale ressaltar que, segundo Oliveira (2021), o uso excessivo de telas pode estar associado à piora da qualidade do sono em adolescentes. No entanto, os autores ressaltam que ainda não é possível afirmar uma relação de causa e efeito.",
     "must_keep": ["Oliveira (2021)"],
     "must_keep_any": [["pode", "talvez", "possível"], ["causa", "relação direta", "ligação direta"], ["não é possível", "não dá", "não se pode", "ainda não", "não confirma", "não comprova", "não há certeza", "não há prova"]]
   },
   {
-    "id": "exp-05", "category": "expressivo", "mode": "expressivo", "max_length_ratio": 1.6,
+    "id": "exp-05", "category": "expressivo", "mode": "expressivo",
     "text": "Nossa plataforma oferece uma solução robusta e abrangente para a gestão de estoques. Além disso, ela permite integração com o ERP da empresa e gera relatórios em tempo real. O plano básico custa R$ 99 por mês.",
     "must_keep": ["R$ 99", "ERP"],
-    "must_keep_any": [["estoque"], ["tempo real", "instantâne", "na hora"]]
+    "must_keep_any": [["estoque"], ["tempo real", "instantâne"]]
   },
   {
-    "id": "exp-06", "category": "expressivo", "mode": "expressivo", "max_length_ratio": 1.6,
+    "id": "exp-06", "category": "expressivo", "mode": "expressivo",
     "text": "O novo medicamento não foi aprovado pela Anvisa e não deve ser utilizado sem prescrição médica. Cada vez mais pessoas procuram tratamentos alternativos, mas nem todos são seguros.",
     "must_keep": ["Anvisa"],
     "must_keep_any": [["não foi aprovado", "não recebeu", "ainda não", "sem aprovação", "não tem aprovação", "não passou"], ["prescrição", "receita", "orientação médica"], ["nem todos", "nem todo", "nem toda", "nem tudo", "nem sempre"]]

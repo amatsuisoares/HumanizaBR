@@ -4,8 +4,10 @@ from style import (
     analyze,
     burstiness,
     cliche_spans,
+    find_ai_patterns,
     find_cliches,
     lexical_diversity,
+    new_ai_patterns,
     new_cliches,
     passive_count,
     split_sentences,
@@ -86,4 +88,39 @@ def test_analyze_resume_tudo():
     r = analyze("Além disso, o texto foi revisado. Ficou ótimo. Todo mundo leu com calma no fim de semana.")
     assert r.sentences == 3 and r.lengths == [6, 2, 9]
     assert r.passive == 1 and r.cliche_total == 1
-    assert set(r.to_dict()) >= {"variacao_frases", "variedade_vocabulario", "cliches"}
+    assert set(r.to_dict()) >= {"variacao_frases", "variedade_vocabulario", "cliches", "padroes_ia"}
+
+
+@pytest.mark.parametrize("texto, padrao", [
+    ("Não é só importante. É vida.", '"Não é só X. É Y."'),
+    ("Ler não é só uma atividade — é um passo.", '"Não é só X. É Y."'),
+    ("Não é mais só futuro. É agora.", '"Não é só X. É Y."'),
+    ("E o melhor? O plano custa R$ 99.", "pergunta de efeito"),
+    ("As vendas caíram. O resultado? Prejuízo.", "pergunta de efeito"),
+    ("É o que nos move, nos transforma, nos torna quem somos.", "trio repetitivo"),
+    ("Integra com o ERP — sem burocracia. Relatórios — sem esperar.", "travessões em excesso"),
+])
+def test_padroes_de_ia(texto, padrao):
+    assert padrao in find_ai_patterns(texto)
+
+
+@pytest.mark.parametrize("texto", [
+    "Qual é a capital da França, segundo o questionário?",
+    "Atua na saúde, na educação e no comércio.",
+    "Não é possível afirmar. É provável que sim.",
+    "Um único travessão — como este — é aceitável.",
+])
+def test_textos_comuns_nao_sao_padroes_de_ia(texto):
+    assert find_ai_patterns(texto) == {}
+
+
+def test_novos_padroes_ignora_os_do_original():
+    assert new_ai_patterns("Fala, chefe. Blz?", "Fala, chefe. Blz?") == {}
+    assert new_ai_patterns("O plano custa R$ 99.", "E o melhor? O plano custa R$ 99.") == {
+        "pergunta de efeito": 1}
+
+
+def test_padroes_de_ia_aparecem_no_relatorio_e_nos_destaques():
+    texto = "Não é só bom. É ótimo."
+    assert analyze(texto).ai_pattern_total == 1
+    assert cliche_spans(texto)

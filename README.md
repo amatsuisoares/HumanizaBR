@@ -17,16 +17,18 @@ medida de qualidade.
   **Correção gramatical** e **Expressivo** (voz ativa, ritmo variado,
   vocabulário rico, tom levemente coloquial e sem clichês).
 - **Métricas de estilo** (aba "Estilo"): variação do tamanho das frases,
-  variedade de vocabulário, voz passiva e clichês, comparando original e
-  resultado, com gráfico de palavras por frase e clichês destacados.
+  variedade de vocabulário, voz passiva, clichês e **padrões de IA** ("Não é
+  só X. É Y.", perguntas de efeito, trios repetitivos, travessões em excesso),
+  comparando original e resultado, com gráfico de palavras por frase e os
+  trechos destacados.
 - Resultado editável, botão de copiar, download em `.txt` e opção de reescrever de novo.
 - Comparação **lado a lado** e **diferenças destacadas** palavra a palavra.
 - **Verificações automáticas de fidelidade**: números, datas, citações,
   trechos entre aspas, URLs, siglas, nomes próprios, termos técnicos, termos
   protegidos pelo usuário, negações, grau de certeza, idioma e tamanho. Elas
   avisam sobre alterações possivelmente críticas em vez de declarar o texto "correto".
-- Nenhum modo introduz clichês que não estavam no original (regra no prompt e
-  aviso automático quando acontece).
+- Nenhum modo deve introduzir clichês que não estavam no original (regra no
+  prompt). O app avisa quando o resultado introduz clichês ou padrões de IA.
 - Limite configurável de entrada, mensagens de erro compreensíveis, nada salvo em disco.
 
 ## Arquitetura
@@ -60,7 +62,7 @@ outra tecnologia, basta chamar `humanizer.rewrite()` e `validators.validate()`.
 | [`humanizer.py`](humanizer.py) | Motor: valida a entrada, monta o prompt, chama o Ollama, trata erros, limpa a resposta |
 | [`modes.py`](modes.py) | Regras gerais, instruções de cada modo e exemplo demonstrativo; `PROMPT_VERSION` |
 | [`validators.py`](validators.py) | Verificações determinísticas entre original e resultado |
-| [`style.py`](style.py) | Métricas de estilo e lista de clichês (usada no prompt e na detecção) |
+| [`style.py`](style.py) | Métricas de estilo, lista de clichês (usada no prompt e na detecção) e padrões de IA |
 | [`config.py`](config.py) | Parâmetros (modelo, temperatura, limites), sobrescrevíveis por variáveis de ambiente |
 | [`.streamlit/config.toml`](.streamlit/config.toml) | Interface só em `127.0.0.1` e telemetria do Streamlit desligada |
 | [`tests/`](tests/) | Testes unitários, de interface e de integração |
@@ -71,9 +73,11 @@ outra tecnologia, basta chamar `humanizer.rewrite()` e `validators.validate()`.
 
 - **Ollama** roda o modelo localmente e expõe uma API HTTP só nesta máquina.
   Ele cuida de GPU, quantização e cache do modelo, sem exigir código de CUDA.
-- **Modelo padrão: `qwen3:4b-instruct-2507-q4_K_M`** (Apache 2.0, ~2,5 GB).
-  A tag `qwen3:4b` aponta para a variante *Thinking*, que "raciocina" antes de
-  cada resposta e levou ~80 s por frase. A variante *Instruct* responde em ~0,5 s.
+- **Modelo padrão: `qwen3:8b`** (Apache 2.0, 5,2 GB, ~5,9 GB de VRAM),
+  escolhido na revisão humana: soou mais natural que o 30B e mais fiel que o 4B.
+  Em GPUs de 6 GB ou menos, use `qwen3:4b-instruct-2507-q4_K_M` (~2,5 GB). A tag
+  `qwen3:4b` aponta para a variante *Thinking*, que "raciocina" antes de cada
+  resposta e levou ~80 s por frase; a *Instruct* responde em ~0,5 s.
 - **Temperatura 0,4** (0,1 no modo Correção gramatical, 0,8 no Expressivo):
   variação de estilo suficiente sem "criatividade" que invente conteúdo. O
   Expressivo usa mais variação de propósito e, por isso, exige mais revisão.
@@ -100,8 +104,8 @@ O projeto foi testado com Python 3.12 e Ollama 0.40.6.
 # 1. Ollama (uma vez). Instala o serviço local e um ícone na bandeja.
 winget install --id Ollama.Ollama -e
 
-# 2. Modelo (uma vez, ~2,5 GB)
-ollama pull qwen3:4b-instruct-2507-q4_K_M
+# 2. Modelo (uma vez, 5,2 GB). GPU com 6 GB ou menos: qwen3:4b-instruct-2507-q4_K_M
+ollama pull qwen3:8b
 
 # 3. Projeto
 cd C:\humanizador
@@ -141,7 +145,7 @@ Abra http://localhost:8501. O Ollama precisa estar ativo (ícone na bandeja ou
 | Interface | `test_app.py` | App abre, reescreve, preserva textos entre interações, repassa o modo, mostra alertas e erros, limpa |
 | Integração | `test_integration.py` | Os 5 modos, números/datas, nomes/siglas, citações, termos técnicos, texto curto, injeção, modelo inexistente, servidor inacessível |
 
-**Última execução (2026-10-21):** 121 unitários/interface e 14 de integração aprovados.
+**Última execução (2026-10-21):** 135 unitários/interface e 14 de integração (com `qwen3:8b`) aprovados.
 
 ## Avaliação de qualidade
 
@@ -164,9 +168,13 @@ Resultados (aprovação nos 5 modos originais / no Expressivo):
 
 | Modelo | Aprovação | Velocidade | Memória |
 |---|---|---|---|
-| `qwen3:4b-instruct-2507-q4_K_M` (padrão) | 85% / 61% (prompt v6) | ~0,5 s | 3,7 GB de VRAM |
-| `qwen3:8b` | 96% / 67% (v7) | ~0,8 s | 5,9 GB de VRAM |
-| `qwen3:30b-a3b-instruct-2507-q4_K_M` | 96% / 67% (v7), Gramática 100% | ~2,5 s | 6 GB de VRAM + ~13 GB de RAM | Detalhes em [docs/AVALIACAO.md](docs/AVALIACAO.md).
+| `qwen3:8b` (padrão) | 94% / 67% | ~0,8 s | 5,9 GB de VRAM |
+| `qwen3:4b-instruct-2507-q4_K_M` | 85% / 61% | ~0,5 s | 3,7 GB de VRAM |
+| `qwen3:30b-a3b-instruct-2507-q4_K_M` (descartado) | 96% / 61% | ~2,5 s | 6 GB de VRAM + ~13 GB de RAM |
+
+Todos com o prompt v6. O 30B teve as melhores notas automáticas, mas na
+revisão humana soou artificial e "robótico"; por isso foi descartado. Detalhes
+em [docs/AVALIACAO.md](docs/AVALIACAO.md).
 
 ## Trocar o modelo
 
@@ -179,11 +187,10 @@ $env:HUMANIZA_MODEL = "<modelo>"
 .\.venv\Scripts\python.exe -m streamlit run app.py
 ```
 
-Para mais qualidade (veja o benchmark), use `qwen3:8b` (5,2 GB) ou
-`qwen3:30b-a3b-instruct-2507-q4_K_M` (18,6 GB; precisa de ~20 GB livres entre
-VRAM e RAM e é ~3× mais lento que o 8B). Exemplo:
-`ollama pull qwen3:8b` e `$env:HUMANIZA_MODEL = "qwen3:8b"`. O raciocínio de modelos híbridos fica
-desligado por padrão (`HUMANIZA_THINK`).
+Para uma GPU menor (6 GB ou menos), use o 4B:
+`ollama pull qwen3:4b-instruct-2507-q4_K_M` e
+`$env:HUMANIZA_MODEL = "qwen3:4b-instruct-2507-q4_K_M"`. O raciocínio de
+modelos híbridos como o `qwen3:8b` fica desligado por padrão (`HUMANIZA_THINK`).
 
 Outras variáveis: `HUMANIZA_TEMPERATURE`, `HUMANIZA_MAX_OUTPUT_TOKENS`,
 `HUMANIZA_CONTEXT_WINDOW`, `HUMANIZA_MAX_INPUT_CHARS`, `HUMANIZA_TIMEOUT`,
@@ -229,13 +236,13 @@ processos `python` e `ollama` foram listadas, e todas eram para `127.0.0.1`.
 - As verificações são heurísticas. Há falsos positivos (ex.: "3 mil" → "3.000")
   e falsos negativos (ex.: "ainda não é possível afirmar" → "não é", sem alterar
   a contagem de negações).
-- **Correção gramatical** é o modo mais fraco (60% na avaliação). O modelo de
-  4B às vezes deixa passar erros ("Fazem dois anos") ou introduz vírgulas
-  indevidas.
+- **Correção gramatical** é um dos modos mais fracos (80% na avaliação com o
+  8B, 60% com o 4B). Os dois deixam passar "Fazem dois anos" (o correto é "Faz
+  dois anos"), e o 4B às vezes acrescenta vírgulas indevidas.
 - **Injeção de instruções** foi reduzida, mas não eliminada. Quando o modelo
   traduz o texto ou escreve algo muito mais longo, o app emite alerta crítico.
-- O modo Acadêmico às vezes expande siglas por conta própria (OMS → Organização
-  Mundial da Saúde). O app avisa.
+- O modo Acadêmico, com o 4B, às vezes expande siglas por conta própria
+  (OMS → Organização Mundial da Saúde). O app avisa.
 - Textos acima do limite (6.000 caracteres por padrão) precisam ser divididos
   manualmente.
 - **O modo Expressivo troca fidelidade por estilo.** Com o modelo de 4B ele
@@ -251,7 +258,7 @@ processos `python` e `ollama` foram listadas, e todas eram para `127.0.0.1`.
 | Sintoma | Causa provável | O que fazer |
 |---|---|---|
 | "Não foi possível conectar ao Ollama" | Ollama não está rodando | Abra o Ollama pelo menu Iniciar ou rode `ollama serve` |
-| "Modelo ... não está disponível" | Modelo não baixado | `ollama pull qwen3:4b-instruct-2507-q4_K_M` |
+| "Modelo ... não está disponível" | Modelo não baixado | `ollama pull qwen3:8b` |
 | `ollama` não é reconhecido no terminal | PATH não atualizado após instalar | Feche e reabra o terminal |
 | Resposta muito lenta (dezenas de segundos) | Modelo *Thinking* ou rodando na CPU | Use a variante *Instruct*; confira `ollama ps` (coluna PROCESSOR deve mostrar GPU) |
 | "atingiu o limite de tokens" | Texto longo | Divida o texto ou aumente `HUMANIZA_MAX_OUTPUT_TOKENS` |
@@ -265,7 +272,7 @@ tokens gerados, duração e motivo de término de cada geração.
 
 | Componente | Licença |
 |---|---|
-| Qwen3-4B-Instruct-2507, Qwen3-8B, Qwen3-30B-A3B-Instruct-2507 | Apache 2.0 |
+| Qwen3-8B, Qwen3-4B-Instruct-2507 | Apache 2.0 |
 | Ollama | MIT |
 | Streamlit | Apache 2.0 |
 | ollama-python | MIT |

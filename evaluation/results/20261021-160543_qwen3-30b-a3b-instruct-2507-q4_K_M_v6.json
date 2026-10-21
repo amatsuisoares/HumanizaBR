@@ -7,14 +7,14 @@
     "timestamp": "2026-10-21T16:05:43",
     "vram_mb": 5953,
     "wall_time_s": 301.1,
-    "rescored_at": "2026-10-21T16:13:23"
+    "rescored_at": "2026-10-21T16:31:19"
   },
   "summary": {
-    "pass_rate": 0.908,
+    "pass_rate": 0.925,
     "by_category": {
       "academico": 1.0,
       "academico_citacoes": 1.0,
-      "expressivo": 0.611,
+      "expressivo": 0.722,
       "gramatica": 1.0,
       "informal": 0.833,
       "lista": 1.0,
@@ -30,7 +30,7 @@
     "by_mode": {
       "academico": 1.0,
       "conciso": 1.0,
-      "expressivo": 0.611,
+      "expressivo": 0.722,
       "gramatica": 1.0,
       "natural": 0.958,
       "profissional": 0.875
@@ -42,6 +42,7 @@
     "latency_max_s": 6.06,
     "stability": 0.875,
     "cliches_novos_por_ex": 0,
+    "padroes_ia_novos_por_ex": 0.1,
     "style_by_mode": {
       "academico": {
         "variacao_frases_in": 0.897,
@@ -52,7 +53,10 @@
         "voz_passiva_out": 0.571,
         "cliches_in": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_in": 0,
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       },
       "conciso": {
         "variacao_frases_in": 0.295,
@@ -63,7 +67,10 @@
         "voz_passiva_out": 0.444,
         "cliches_in": 0.333,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_in": 0,
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       },
       "expressivo": {
         "variacao_frases_in": 0.33,
@@ -74,7 +81,10 @@
         "voz_passiva_out": 0.278,
         "cliches_in": 2.167,
         "cliches_out": 0.278,
-        "cliches_novos": 0
+        "padroes_ia_in": 0,
+        "padroes_ia_out": 0.667,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0.667
       },
       "gramatica": {
         "variacao_frases_in": null,
@@ -85,7 +95,10 @@
         "voz_passiva_out": 0.2,
         "cliches_in": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_in": 0,
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       },
       "natural": {
         "variacao_frases_in": 0.627,
@@ -96,7 +109,10 @@
         "voz_passiva_out": 0.125,
         "cliches_in": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_in": 0,
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       },
       "profissional": {
         "variacao_frases_in": null,
@@ -107,7 +123,10 @@
         "voz_passiva_out": 0.125,
         "cliches_in": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_in": 0,
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     }
   },
@@ -137,11 +156,14 @@
         "variedade_vocabulario_in": 0.833,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.909,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -169,11 +191,14 @@
         "variedade_vocabulario_in": 0.92,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.871,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -201,11 +226,14 @@
         "variedade_vocabulario_in": 0.8,
         "voz_passiva_in": 2,
         "cliches_in": 1,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.895,
         "voz_passiva_out": 2,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -233,11 +261,14 @@
         "variedade_vocabulario_in": 0.857,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.893,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -265,11 +296,14 @@
         "variedade_vocabulario_in": 0.947,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.947,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -297,11 +331,14 @@
         "variedade_vocabulario_in": 0.917,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.917,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -329,11 +366,14 @@
         "variedade_vocabulario_in": 0.957,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.926,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -363,11 +403,14 @@
         "variedade_vocabulario_in": 0.853,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.933,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -398,11 +441,14 @@
         "variedade_vocabulario_in": 0.92,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.927,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -430,11 +476,14 @@
         "variedade_vocabulario_in": 0.897,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 1.0,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -462,11 +511,14 @@
         "variedade_vocabulario_in": 0.846,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": 0.63,
         "variedade_vocabulario_out": 0.84,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -494,11 +546,14 @@
         "variedade_vocabulario_in": 0.897,
         "voz_passiva_in": 1,
         "cliches_in": 1,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.941,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -526,11 +581,14 @@
         "variedade_vocabulario_in": 0.875,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": 1.019,
         "variedade_vocabulario_out": 0.875,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -558,11 +616,14 @@
         "variedade_vocabulario_in": 0.917,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.958,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -590,11 +651,14 @@
         "variedade_vocabulario_in": 0.913,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.96,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -622,11 +686,14 @@
         "variedade_vocabulario_in": 0.923,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.926,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -654,11 +721,14 @@
         "variedade_vocabulario_in": 0.724,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.944,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -686,11 +756,14 @@
         "variedade_vocabulario_in": null,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": null,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -718,11 +791,14 @@
         "variedade_vocabulario_in": null,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": null,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -750,11 +826,14 @@
         "variedade_vocabulario_in": null,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": null,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -782,11 +861,14 @@
         "variedade_vocabulario_in": 0.955,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.947,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -814,11 +896,14 @@
         "variedade_vocabulario_in": 0.952,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.958,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -834,7 +919,8 @@
       "truncated": false,
       "passed": false,
       "failures": [
-        "faltou um de: provavelmente | é provável | possivelmente | a tendência"
+        "faltou um de: provavelmente | é provável | possivelmente | a tendência",
+        "faltou um de: não está garantid | não há garantia | sem garantia | não é garantid | não está assegurad | não é assegurad"
       ],
       "critical_alerts": 0,
       "warnings": 1,
@@ -850,11 +936,14 @@
         "variedade_vocabulario_in": 0.947,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.952,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -882,11 +971,14 @@
         "variedade_vocabulario_in": 0.929,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.941,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -914,11 +1006,14 @@
         "variedade_vocabulario_in": 0.955,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.958,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -946,11 +1041,14 @@
         "variedade_vocabulario_in": 0.947,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.875,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -978,11 +1076,14 @@
         "variedade_vocabulario_in": 0.821,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.857,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1010,11 +1111,14 @@
         "variedade_vocabulario_in": 1.0,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 1.0,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1042,11 +1146,14 @@
         "variedade_vocabulario_in": 1.0,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 1.0,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1074,11 +1181,14 @@
         "variedade_vocabulario_in": 1.0,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 1.0,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1106,11 +1216,14 @@
         "variedade_vocabulario_in": 1.0,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 1.0,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1138,11 +1251,14 @@
         "variedade_vocabulario_in": 0.957,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": 0.178,
         "variedade_vocabulario_out": 0.952,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1170,11 +1286,14 @@
         "variedade_vocabulario_in": 1.0,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.964,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1202,11 +1321,14 @@
         "variedade_vocabulario_in": 0.808,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.875,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1220,10 +1342,8 @@
       "duration_s": 6.06,
       "output_tokens": 120,
       "truncated": false,
-      "passed": false,
-      "failures": [
-        "resultado 1.7x mais longo que o original"
-      ],
+      "passed": true,
+      "failures": [],
       "critical_alerts": 0,
       "warnings": 1,
       "alerts": [
@@ -1238,11 +1358,14 @@
         "variedade_vocabulario_in": 0.841,
         "voz_passiva_in": 2,
         "cliches_in": 5,
+        "padroes_ia_in": 0,
         "variacao_frases_out": 0.645,
         "variedade_vocabulario_out": 0.858,
         "voz_passiva_out": 0,
         "cliches_out": 1,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1270,11 +1393,14 @@
         "variedade_vocabulario_in": 0.909,
         "voz_passiva_in": 5,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": 0.452,
         "variedade_vocabulario_out": 0.97,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1288,13 +1414,12 @@
       "duration_s": 4.72,
       "output_tokens": 111,
       "truncated": false,
-      "passed": false,
-      "failures": [
-        "resultado 2.3x mais longo que o original"
-      ],
+      "passed": true,
+      "failures": [],
       "critical_alerts": 0,
-      "warnings": 1,
+      "warnings": 2,
       "alerts": [
+        "aviso:padrões de IA:\"Não é só X. É Y.\", trio repetitivo",
         "aviso:tamanho:"
       ],
       "stats": {
@@ -1306,11 +1431,14 @@
         "variedade_vocabulario_in": 0.633,
         "voz_passiva_in": 0,
         "cliches_in": 3,
+        "padroes_ia_in": 0,
         "variacao_frases_out": 0.658,
         "variedade_vocabulario_out": 0.897,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 3,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 3
       }
     },
     {
@@ -1340,11 +1468,14 @@
         "variedade_vocabulario_in": 0.949,
         "voz_passiva_in": 0,
         "cliches_in": 1,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.925,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1360,11 +1491,12 @@
       "truncated": false,
       "passed": false,
       "failures": [
-        "resultado 1.8x mais longo que o original"
+        "faltou um de: tempo real | instantâne"
       ],
       "critical_alerts": 0,
-      "warnings": 1,
+      "warnings": 2,
       "alerts": [
+        "aviso:padrões de IA:pergunta de efeito",
         "aviso:tamanho:"
       ],
       "stats": {
@@ -1376,11 +1508,14 @@
         "variedade_vocabulario_in": 0.946,
         "voz_passiva_in": 0,
         "cliches_in": 3,
+        "padroes_ia_in": 0,
         "variacao_frases_out": 0.446,
         "variedade_vocabulario_out": 0.871,
         "voz_passiva_out": 2,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 1,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 1
       }
     },
     {
@@ -1408,11 +1543,14 @@
         "variedade_vocabulario_in": 0.964,
         "voz_passiva_in": 2,
         "cliches_in": 1,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.967,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1440,11 +1578,14 @@
         "variedade_vocabulario_in": 0.833,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.909,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1472,11 +1613,14 @@
         "variedade_vocabulario_in": 0.92,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.862,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1504,11 +1648,14 @@
         "variedade_vocabulario_in": 0.8,
         "voz_passiva_in": 2,
         "cliches_in": 1,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.889,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1536,11 +1683,14 @@
         "variedade_vocabulario_in": 0.857,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.893,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1568,11 +1718,14 @@
         "variedade_vocabulario_in": 0.947,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.947,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1600,11 +1753,14 @@
         "variedade_vocabulario_in": 0.917,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.917,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1632,11 +1788,14 @@
         "variedade_vocabulario_in": 0.957,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.926,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1666,11 +1825,14 @@
         "variedade_vocabulario_in": 0.853,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.933,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1701,11 +1863,14 @@
         "variedade_vocabulario_in": 0.92,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.927,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1733,11 +1898,14 @@
         "variedade_vocabulario_in": 0.897,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.944,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1765,11 +1933,14 @@
         "variedade_vocabulario_in": 0.846,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": 0.629,
         "variedade_vocabulario_out": 0.852,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1797,11 +1968,14 @@
         "variedade_vocabulario_in": 0.897,
         "voz_passiva_in": 1,
         "cliches_in": 1,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.941,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1829,11 +2003,14 @@
         "variedade_vocabulario_in": 0.875,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": 0.993,
         "variedade_vocabulario_out": 0.9,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1861,11 +2038,14 @@
         "variedade_vocabulario_in": 0.917,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 1.0,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1893,11 +2073,14 @@
         "variedade_vocabulario_in": 0.913,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.96,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1925,11 +2108,14 @@
         "variedade_vocabulario_in": 0.923,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.926,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1957,11 +2143,14 @@
         "variedade_vocabulario_in": 0.724,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.944,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -1989,11 +2178,14 @@
         "variedade_vocabulario_in": null,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": null,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2021,11 +2213,14 @@
         "variedade_vocabulario_in": null,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": null,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2053,11 +2248,14 @@
         "variedade_vocabulario_in": null,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": null,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2085,11 +2283,14 @@
         "variedade_vocabulario_in": 0.955,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.974,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2117,11 +2318,14 @@
         "variedade_vocabulario_in": 0.952,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.958,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2137,7 +2341,8 @@
       "truncated": false,
       "passed": false,
       "failures": [
-        "faltou um de: provavelmente | é provável | possivelmente | a tendência"
+        "faltou um de: provavelmente | é provável | possivelmente | a tendência",
+        "faltou um de: não está garantid | não há garantia | sem garantia | não é garantid | não está assegurad | não é assegurad"
       ],
       "critical_alerts": 0,
       "warnings": 1,
@@ -2153,11 +2358,14 @@
         "variedade_vocabulario_in": 0.947,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.952,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2185,11 +2393,14 @@
         "variedade_vocabulario_in": 0.929,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.941,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2221,11 +2432,14 @@
         "variedade_vocabulario_in": 0.955,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.96,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2253,11 +2467,14 @@
         "variedade_vocabulario_in": 0.947,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.875,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2285,11 +2502,14 @@
         "variedade_vocabulario_in": 0.821,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.857,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2317,11 +2537,14 @@
         "variedade_vocabulario_in": 1.0,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 1.0,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2349,11 +2572,14 @@
         "variedade_vocabulario_in": 1.0,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 1.0,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2381,11 +2607,14 @@
         "variedade_vocabulario_in": 1.0,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 1.0,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2413,11 +2642,14 @@
         "variedade_vocabulario_in": 1.0,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 1.0,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2445,11 +2677,14 @@
         "variedade_vocabulario_in": 0.957,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": 0.178,
         "variedade_vocabulario_out": 0.952,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2477,11 +2712,14 @@
         "variedade_vocabulario_in": 1.0,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.964,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2509,11 +2747,14 @@
         "variedade_vocabulario_in": 0.808,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.88,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2541,11 +2782,14 @@
         "variedade_vocabulario_in": 0.841,
         "voz_passiva_in": 2,
         "cliches_in": 5,
+        "padroes_ia_in": 0,
         "variacao_frases_out": 0.66,
         "variedade_vocabulario_out": 0.892,
         "voz_passiva_out": 0,
         "cliches_out": 1,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2575,11 +2819,14 @@
         "variedade_vocabulario_in": 0.909,
         "voz_passiva_in": 5,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": 0.333,
         "variedade_vocabulario_out": 0.933,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2593,13 +2840,12 @@
       "duration_s": 4.72,
       "output_tokens": 111,
       "truncated": false,
-      "passed": false,
-      "failures": [
-        "resultado 2.3x mais longo que o original"
-      ],
+      "passed": true,
+      "failures": [],
       "critical_alerts": 0,
-      "warnings": 1,
+      "warnings": 2,
       "alerts": [
+        "aviso:padrões de IA:\"Não é só X. É Y.\"",
         "aviso:tamanho:"
       ],
       "stats": {
@@ -2611,11 +2857,14 @@
         "variedade_vocabulario_in": 0.633,
         "voz_passiva_in": 0,
         "cliches_in": 3,
+        "padroes_ia_in": 0,
         "variacao_frases_out": 0.748,
         "variedade_vocabulario_out": 0.781,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 2,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 2
       }
     },
     {
@@ -2647,11 +2896,14 @@
         "variedade_vocabulario_in": 0.949,
         "voz_passiva_in": 0,
         "cliches_in": 1,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.935,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2679,11 +2931,14 @@
         "variedade_vocabulario_in": 0.946,
         "voz_passiva_in": 0,
         "cliches_in": 3,
+        "padroes_ia_in": 0,
         "variacao_frases_out": 0.232,
         "variedade_vocabulario_out": 0.92,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2713,11 +2968,14 @@
         "variedade_vocabulario_in": 0.964,
         "voz_passiva_in": 2,
         "cliches_in": 1,
+        "padroes_ia_in": 0,
         "variacao_frases_out": 0.456,
         "variedade_vocabulario_out": 0.935,
         "voz_passiva_out": 0,
         "cliches_out": 1,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2745,11 +3003,14 @@
         "variedade_vocabulario_in": 0.833,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.909,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2777,11 +3038,14 @@
         "variedade_vocabulario_in": 0.92,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.871,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2809,11 +3073,14 @@
         "variedade_vocabulario_in": 0.8,
         "voz_passiva_in": 2,
         "cliches_in": 1,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.938,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2841,11 +3108,14 @@
         "variedade_vocabulario_in": 0.857,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.893,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2873,11 +3143,14 @@
         "variedade_vocabulario_in": 0.947,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.947,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2905,11 +3178,14 @@
         "variedade_vocabulario_in": 0.917,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.917,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2937,11 +3213,14 @@
         "variedade_vocabulario_in": 0.957,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.897,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -2971,11 +3250,14 @@
         "variedade_vocabulario_in": 0.853,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.933,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3006,11 +3288,14 @@
         "variedade_vocabulario_in": 0.92,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.925,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3038,11 +3323,14 @@
         "variedade_vocabulario_in": 0.897,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 1.0,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3070,11 +3358,14 @@
         "variedade_vocabulario_in": 0.846,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": 0.63,
         "variedade_vocabulario_out": 0.84,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3102,11 +3393,14 @@
         "variedade_vocabulario_in": 0.897,
         "voz_passiva_in": 1,
         "cliches_in": 1,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.941,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3134,11 +3428,14 @@
         "variedade_vocabulario_in": 0.875,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": 0.993,
         "variedade_vocabulario_out": 0.9,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3168,11 +3465,14 @@
         "variedade_vocabulario_in": 0.917,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.957,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3200,11 +3500,14 @@
         "variedade_vocabulario_in": 0.913,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.963,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3232,11 +3535,14 @@
         "variedade_vocabulario_in": 0.923,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.926,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3264,11 +3570,14 @@
         "variedade_vocabulario_in": 0.724,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.944,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3296,11 +3605,14 @@
         "variedade_vocabulario_in": null,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": null,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3328,11 +3640,14 @@
         "variedade_vocabulario_in": null,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": null,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3360,11 +3675,14 @@
         "variedade_vocabulario_in": null,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": null,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3392,11 +3710,14 @@
         "variedade_vocabulario_in": 0.955,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.974,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3424,11 +3745,14 @@
         "variedade_vocabulario_in": 0.952,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.958,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3444,7 +3768,8 @@
       "truncated": false,
       "passed": false,
       "failures": [
-        "faltou um de: provavelmente | é provável | possivelmente | a tendência"
+        "faltou um de: provavelmente | é provável | possivelmente | a tendência",
+        "faltou um de: não está garantid | não há garantia | sem garantia | não é garantid | não está assegurad | não é assegurad"
       ],
       "critical_alerts": 0,
       "warnings": 1,
@@ -3460,11 +3785,14 @@
         "variedade_vocabulario_in": 0.947,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.952,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3492,11 +3820,14 @@
         "variedade_vocabulario_in": 0.929,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.941,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3524,11 +3855,14 @@
         "variedade_vocabulario_in": 0.955,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.958,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3556,11 +3890,14 @@
         "variedade_vocabulario_in": 0.947,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.913,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3588,11 +3925,14 @@
         "variedade_vocabulario_in": 0.821,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.857,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3620,11 +3960,14 @@
         "variedade_vocabulario_in": 1.0,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 1.0,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3652,11 +3995,14 @@
         "variedade_vocabulario_in": 1.0,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 1.0,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3684,11 +4030,14 @@
         "variedade_vocabulario_in": 1.0,
         "voz_passiva_in": 1,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 1.0,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3716,11 +4065,14 @@
         "variedade_vocabulario_in": 1.0,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 1.0,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3748,11 +4100,14 @@
         "variedade_vocabulario_in": 0.957,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": 0.178,
         "variedade_vocabulario_out": 0.952,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3780,11 +4135,14 @@
         "variedade_vocabulario_in": 1.0,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.964,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3812,11 +4170,14 @@
         "variedade_vocabulario_in": 0.808,
         "voz_passiva_in": 0,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.875,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3844,11 +4205,14 @@
         "variedade_vocabulario_in": 0.841,
         "voz_passiva_in": 2,
         "cliches_in": 5,
+        "padroes_ia_in": 0,
         "variacao_frases_out": 0.56,
         "variedade_vocabulario_out": 0.856,
         "voz_passiva_out": 0,
         "cliches_out": 1,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3876,11 +4240,14 @@
         "variedade_vocabulario_in": 0.909,
         "voz_passiva_in": 5,
         "cliches_in": 0,
+        "padroes_ia_in": 0,
         "variacao_frases_out": 0.547,
         "variedade_vocabulario_out": 1.0,
         "voz_passiva_out": 1,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3899,8 +4266,9 @@
         "resultado 2.6x mais longo que o original"
       ],
       "critical_alerts": 1,
-      "warnings": 0,
+      "warnings": 1,
       "alerts": [
+        "aviso:padrões de IA:\"Não é só X. É Y.\", pergunta de efeito, travessões em excesso, trio repetitivo",
         "critico:conteúdo divergente:"
       ],
       "stats": {
@@ -3912,11 +4280,14 @@
         "variedade_vocabulario_in": 0.633,
         "voz_passiva_in": 0,
         "cliches_in": 3,
+        "padroes_ia_in": 0,
         "variacao_frases_out": 0.619,
         "variedade_vocabulario_out": 0.839,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 5,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 5
       }
     },
     {
@@ -3946,11 +4317,14 @@
         "variedade_vocabulario_in": 0.949,
         "voz_passiva_in": 0,
         "cliches_in": 1,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.971,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     },
     {
@@ -3964,11 +4338,15 @@
       "duration_s": 3.82,
       "output_tokens": 84,
       "truncated": false,
-      "passed": true,
-      "failures": [],
+      "passed": false,
+      "failures": [
+        "faltou um de: tempo real | instantâne"
+      ],
       "critical_alerts": 0,
-      "warnings": 0,
-      "alerts": [],
+      "warnings": 1,
+      "alerts": [
+        "aviso:padrões de IA:pergunta de efeito"
+      ],
       "stats": {
         "razao_tamanho": 1.459,
         "similaridade": 0.509
@@ -3978,11 +4356,14 @@
         "variedade_vocabulario_in": 0.946,
         "voz_passiva_in": 0,
         "cliches_in": 3,
+        "padroes_ia_in": 0,
         "variacao_frases_out": 0.483,
         "variedade_vocabulario_out": 0.87,
         "voz_passiva_out": 0,
         "cliches_out": 0,
-        "cliches_novos": 0
+        "padroes_ia_out": 1,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 1
       }
     },
     {
@@ -4010,11 +4391,14 @@
         "variedade_vocabulario_in": 0.964,
         "voz_passiva_in": 2,
         "cliches_in": 1,
+        "padroes_ia_in": 0,
         "variacao_frases_out": null,
         "variedade_vocabulario_out": 0.941,
         "voz_passiva_out": 0,
         "cliches_out": 1,
-        "cliches_novos": 0
+        "padroes_ia_out": 0,
+        "cliches_novos": 0,
+        "padroes_ia_novos": 0
       }
     }
   ]

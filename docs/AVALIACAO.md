@@ -49,7 +49,7 @@ estatisticamente equivalentes.
 
 | Modelo | Licença | Aprovação | Natural | Acadêmico | Profissional | Conciso | Gramática | Alertas críticos/ex. | Estabilidade | VRAM |
 |---|---|---|---|---|---|---|---|---|---|---|
-| `qwen3:4b-instruct-2507-q4_K_M` (padrão) | Apache 2.0 | 87% | 96% | 86% | 88% | 100% | 60% | 0,03 | 0,97 | 3,7 GB |
+| `qwen3:4b-instruct-2507-q4_K_M` | Apache 2.0 | 87% | 96% | 86% | 88% | 100% | 60% | 0,03 | 0,97 | 3,7 GB |
 | `qwen3:8b` (`think=False`) | Apache 2.0 | **94%** | 92% | 100% | 96% | 100% | 80% | **0** | 0,94 | 5,9 GB |
 
 - O 8B resolveu as duas injeções (`inj-01`, `inj-02`), a expansão indevida de
@@ -64,9 +64,10 @@ estatisticamente equivalentes.
   Medição isolada com a GPU disputada: 8B a 4–5 tokens/s com contexto de 8.192
   e 11–12 tokens/s com contexto de 4.096 (o cache menor libera VRAM).
 
-**Decisão:** o 4B continua como padrão por ser muito mais rápido e por caber
-com folga em GPUs de 6 GB (ex.: RTX 4050). O 8B é a opção recomendada quando a
-prioridade for qualidade: `$env:HUMANIZA_MODEL = "qwen3:8b"`.
+**Decisão (prompt v4):** o 4B continuou como padrão por ser mais rápido e por
+caber com folga em GPUs de 6 GB (ex.: RTX 4050). Depois da revisão humana de
+2026-10-21 (ver abaixo), o **8B passou a ser o padrão**; o 4B ficou como opção
+leve: `$env:HUMANIZA_MODEL = "qwen3:4b-instruct-2507-q4_K_M"`.
 
 Modelos considerados e não testados: `mistral:7b` (Apache 2.0, 4,4 GB),
 `gemma3:4b` (Gemma Terms of Use, 3,4 GB) e `llama3.1:8b` (Llama 3.1 Community
@@ -120,37 +121,61 @@ O que os números mostram:
 6,7 s, no carregamento do modelo), contra 0,45 s do 4B. A medição anterior
 (8,7 s) tinha sido feita com jogos disputando a GPU.
 
-## `qwen3:30b-a3b-instruct-2507-q4_K_M` e prompt v7
+## `qwen3:30b-a3b-instruct-2507-q4_K_M` (prompt v6)
 
 Modelo de 30,5B parâmetros do tipo *mixture of experts* (~3B ativos por
 token), Apache 2.0, 18,6 GB. Não cabe nos 8 GB da RTX 5060: o Ollama coloca
 ~6 GB na GPU e o restante na RAM. Primeira carga: ~41 s; depois, ~2,5 s por
 reescrita.
 
-**v7:** o Expressivo proíbe frases de comentário, slogans e conclusões novas,
-pede tamanho parecido com o original, e a temperatura do modo cai de 0,8 para
-0,7. Na avaliação, os exemplos do Expressivo passaram a reprovar acima de
-1,6× o tamanho do original (`max_length_ratio`), para que conteúdo
-inventado conte como falha.
-
 | Modelo / prompt | 5 modos originais | Gramática | Expressivo | Variação das frases no Expressivo (orig. 0,33) | Clichês no Expressivo (orig. 2,2) | Estabilidade | Latência média |
 |---|---|---|---|---|---|---|---|
 | 4B / v6 | 85% | 60% | 61% | 0,35 | 0,06 | 0,93 | 0,45 s |
 | 8B / v6 | 94% | 80% | 67% | 0,23 | 0,39 | 0,95 | 0,75 s |
-| 8B / v7 | 96% | 80% | 67% | 0,21 | 0,33 | 0,98 | 0,76 s |
-| 30B-A3B / v6 | 96% | **100%** | 61% | **0,53** | 0,28 | 0,88 | 2,5 s |
-| 30B-A3B / v7 | **96%** | **100%** | 67% | **0,47** | **0,11** | 0,93 | 2,5 s |
+| 30B-A3B / v6 | **96%** | **100%** | 61% | **0,53** | 0,28 | 0,88 | 2,5 s |
 
 - O 30B corrigiu o `gra-01` ("Fazem dois anos" → "Faz dois anos") e o
   `cur-01`, falhas que 4B e 8B nunca resolveram.
 - No Expressivo, o 30B é o único com variação de ritmo de verdade, mas
-  **enfeita**: "Puro presente.", "Ler é respirar.", "como se fossem um relógio
-  de sol". A v7 reduziu, sem eliminar. Esse tipo de acréscimo só é pego quando
-  aumenta muito o tamanho do texto.
+  **enfeita**: "Isso não é futuro. É agora.", "É vida. Ler é viver mais.",
+  "Economia com qualidade." Esse tipo de acréscimo só é pego pela avaliação
+  quando aumenta muito o tamanho do texto.
 - Falhas do 30B nos outros modos: troca "provavelmente" por "há possibilidade"
   (`res-03`, ressalva enfraquecida, com aviso do validador) e, em 1 de 3
-  execuções, "uma hora" por "quase sessenta minutos" (`inf-01`, alerta crítico).
-- O 8B continua fiel e 3× mais rápido, mas com frases uniformes no Expressivo.
+  execuções, "uma hora" por "vinte minutos" (`inf-01`, alerta crítico).
+
+**Revisão humana (2026-10-21), usando o app:** o 8B foi considerado superior
+ao 30B. No Acadêmico, o 30B soou "mais artificial". No Expressivo, ele
+"removeu muitas informações" e as escolhas de frase deixaram o texto
+"robótico, como uma versão antiga do ChatGPT". As métricas automáticas
+apontavam o 30B como melhor, mas a leitura humana discordou. Padrões nas
+saídas do 30B que explicam essa impressão, e que a lista de clichês (só
+palavras e expressões) não detectava: "Não é só X. É Y.", travessões em
+excesso, perguntas de efeito ("E o melhor?") e sequências de três ("nos move,
+nos transforma, nos torna quem somos"). **Decisão:** o 30B foi descartado e o
+8B passou a ser o modelo padrão.
+
+Um ajuste de prompt testado depois da v6 (temperatura 0,7 e proibição de
+frases acrescentadas no Expressivo) também foi **descartado**: na revisão
+humana, os modos Expressivo e Profissional ficaram piores que na v6.
+
+## Padrões de IA (detecção) e prompt v8 (descartado)
+
+A partir da revisão humana do 30B, o [`style.py`](../style.py) passou a
+detectar quatro estruturas que soam artificiais: "Não é só X. É Y.", perguntas
+curtas de efeito ("E o melhor?"), trios com a mesma palavra inicial e mais de
+uma frase com travessão. A aba "Estilo" mostra a contagem, e o validador avisa
+quando o resultado introduz algum desses padrões.
+
+Padrões de IA introduzidos por texto (média em todos os modos, prompt v6): 4B
+0,03 · 8B 0,02 · **30B 0,10**. Isso confirma que eram um problema
+principalmente do 30B.
+
+A **v8** acrescentou ao prompt uma regra contra esses padrões. Com o 8B, ela
+zerou os padrões introduzidos (de 0,02 para 0), mas a aprovação nos 5 modos
+originais caiu de 94% para 91%: o `tec-02` perdeu "venv" e o `cit-01` piorou.
+A diferença está perto do ruído de medição, porém sem ganho que a justifique.
+**Decisão:** manter o prompt da v6 e usar os padrões apenas na detecção.
 
 ## Achados importantes
 

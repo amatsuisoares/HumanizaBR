@@ -26,9 +26,11 @@ CLICHE_LIST = ", ".join(f'"{label}"' for label, _ in CLICHES)
 # v5: regra 13 (não introduzir clichês) e o modo Expressivo.
 # v6: modo Expressivo com frase curta obrigatória e proteção de palavras-chave,
 #     negações e gramática (a v5 trocava "não aprovado" por "rejeitado").
-# v7: Expressivo proíbe frases de comentário/slogan novas e pede tamanho parecido
-#     com o original; temperatura 0,8 -> 0,7 (o 30B-A3B inventava "Isso não é futuro.").
-PROMPT_VERSION = "v7"
+# v7: descartada (pior que a v6 na revisão humana).
+# v8: regra contra estruturas típicas de IA ("Não é só X. É Y."...); descartada:
+#     sem ganho com o 8B, que quase não produz esses padrões (docs/AVALIACAO.md).
+# O prompt em uso é o da v6.
+PROMPT_VERSION = "v6"
 
 # Regras comuns a todos os modos. O texto do usuário é tratado como DADO,
 # nunca como instrução — isso reduz o risco de "prompt injection".
@@ -168,15 +170,11 @@ MODES: dict[str, Mode] = {
                 "sem gírias pesadas e sem perder a clareza.\n"
                 "- Se couber com naturalidade, use no máximo uma metáfora ou comparação simples, "
                 "que não acrescente nenhum fato novo.\n"
-                "- Não acrescente frases de comentário, exemplos, benefícios, aplicações, slogans ou "
-                "conclusões que não estejam no original (como \"E isso faz toda a diferença.\"): cada "
-                "frase do resultado deve corresponder a algo que o original diz. O resultado deve ter "
-                "mais ou menos o mesmo tamanho do original.\n"
                 "- Varie o início das frases.\n"
                 "- Elimine clichês, inclusive os que estiverem no original, trocando-os por formas mais "
                 f"diretas: {CLICHE_LIST}."
             ),
-            temperature=0.7,
+            temperature=0.8,
         ),
     ]
 }

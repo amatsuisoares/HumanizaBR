@@ -89,6 +89,7 @@ def test_aba_estilo_mostra_metricas_e_cliches(app):
         click(app, "✨ Reescrever")
     assert not app.exception
     labels = {m.label for m in app.metric}
-    assert {"Variação das frases", "Variedade de vocabulário", "Voz passiva", "Clichês"} <= labels
+    assert {"Variação das frases", "Variedade de vocabulário", "Voz passiva", "Clichês",
+            "Padrões de IA"} <= labels
     assert next(m for m in app.metric if m.label == "Clichês").value == "1"
     assert any("<mark>Além disso</mark>" in md.value for md in app.markdown)

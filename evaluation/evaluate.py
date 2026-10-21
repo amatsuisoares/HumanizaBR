@@ -18,8 +18,6 @@ Critérios objetivos de cada exemplo:
   - must_keep_any: grupos de alternativas; ao menos uma de cada grupo deve
     aparecer (sem diferenciar maiúsculas);
   - must_not_contain: trechos proibidos (indicam erro ou instrução obedecida);
-  - tamanho: no máximo MAX_LENGTH_RATIO (ou max_length_ratio do exemplo) vezes
-    o número de palavras do original;
   - alertas críticos do validators.py (contados, não reprovam sozinhos).
 
 Métricas de estilo (style.py), medidas à parte e sem reprovar exemplos:
@@ -45,7 +43,7 @@ sys.path.insert(0, str(ROOT))
 from config import Settings  # noqa: E402
 from humanizer import HumanizerError, make_client, rewrite  # noqa: E402
 from modes import PROMPT_VERSION  # noqa: E402
-from style import analyze, new_cliches  # noqa: E402
+from style import analyze, new_ai_patterns, new_cliches  # noqa: E402
 from validators import validate  # noqa: E402
 
 EXAMPLES = Path(__file__).with_name("examples.json")
@@ -76,14 +74,13 @@ def check_example(example: dict, output: str) -> list[str]:
     # Critério global: nas saídas legítimas medidas, a maior razão foi ~1,5.
     # Bem acima disso, o modelo provavelmente obedeceu a uma instrução do texto
     # ou inventou conteúdo.
-    # Um exemplo pode exigir um limite mais rígido (max_length_ratio).
     ratio = len(output.split()) / max(1, len(example["text"].split()))
-    if ratio > example.get("max_length_ratio", MAX_LENGTH_RATIO):
+    if ratio > MAX_LENGTH_RATIO:
         failures.append(f"resultado {ratio:.1f}x mais longo que o original")
     return failures
 
 
-STYLE_KEYS = ["variacao_frases", "variedade_vocabulario", "voz_passiva", "cliches"]
+STYLE_KEYS = ["variacao_frases", "variedade_vocabulario", "voz_passiva", "cliches", "padroes_ia"]
 
 
 def style_metrics(original: str, output: str) -> dict:
@@ -93,6 +90,7 @@ def style_metrics(original: str, output: str) -> dict:
     a, b = analyze(original).to_dict(), analyze(output).to_dict()
     metrics = {f"{k}_in": a[k] for k in STYLE_KEYS} | {f"{k}_out": b[k] for k in STYLE_KEYS}
     metrics["cliches_novos"] = sum(new_cliches(original, output).values())
+    metrics["padroes_ia_novos"] = sum(new_ai_patterns(original, output).values())
     return metrics
 
 
@@ -176,6 +174,7 @@ def summarize(records: list[dict]) -> dict:
         style_by_mode[mode] = {f"{k}_{s}": mean_of(rs, f"{k}_{s}")
                                for k in STYLE_KEYS for s in ("in", "out")}
         style_by_mode[mode]["cliches_novos"] = mean_of(rs, "cliches_novos")
+        style_by_mode[mode]["padroes_ia_novos"] = mean_of(rs, "padroes_ia_novos")
 
     return {
         "pass_rate": rate(records),
@@ -188,6 +187,7 @@ def summarize(records: list[dict]) -> dict:
         "latency_max_s": round(max(durations), 2) if durations else None,
         "stability": round(stable, 3) if stable is not None else None,
         "cliches_novos_por_ex": mean_of(records, "cliches_novos"),
+        "padroes_ia_novos_por_ex": mean_of(records, "padroes_ia_novos"),
         "style_by_mode": style_by_mode,
     }
 
@@ -207,13 +207,14 @@ def write_markdown(result: dict, path: Path) -> None:
         "",
         "## Estilo por modo (médias: original → resultado)",
         "",
-        "| Modo | Variação das frases | Variedade de vocabulário | Voz passiva | Clichês | Clichês novos |",
-        "|---|---|---|---|---|---|",
+        "| Modo | Variação das frases | Variedade de vocabulário | Voz passiva | Clichês | Clichês novos | Padrões de IA | Padrões de IA novos |",
+        "|---|---|---|---|---|---|---|---|",
     ]
     for mode, st in s.get("style_by_mode", {}).items():
         cell = lambda k: f"{st[k + '_in']} → {st[k + '_out']}"  # noqa: E731
         lines.append(f"| {mode} | {cell('variacao_frases')} | {cell('variedade_vocabulario')} | "
-                     f"{cell('voz_passiva')} | {cell('cliches')} | {st['cliches_novos']} |")
+                     f"{cell('voz_passiva')} | {cell('cliches')} | {st['cliches_novos']} | "
+                     f"{cell('padroes_ia')} | {st.get('padroes_ia_novos')} |")
     lines.append("")
     for r in result["records"]:
         if r["run"] != 1:
@@ -233,7 +234,8 @@ def write_markdown(result: dict, path: Path) -> None:
             lines.append(f"**Estilo:** variação das frases {st['variacao_frases_in']} → "
                          f"{st['variacao_frases_out']} · vocabulário {st['variedade_vocabulario_in']} → "
                          f"{st['variedade_vocabulario_out']} · passiva {st['voz_passiva_in']} → "
-                         f"{st['voz_passiva_out']} · clichês {st['cliches_in']} → {st['cliches_out']}  ")
+                         f"{st['voz_passiva_out']} · clichês {st['cliches_in']} → {st['cliches_out']} · "
+                         f"padrões de IA {st.get('padroes_ia_in')} → {st.get('padroes_ia_out')}  ")
         if r["alerts"]:
             lines.append(f"**Alertas do validador:** {'; '.join(r['alerts'])}  ")
         lines += ["**Nota humana:** fidelidade _ · fluência _ · modo _", ""]
@@ -334,7 +336,8 @@ def main() -> None:
           f"alertas críticos/ex. {s['avg_critical_alerts']} | estabilidade {s['stability']} | "
           f"VRAM {result['meta']['vram_mb']} MB")
     print(f"Por modo: {s['by_mode']}")
-    print(f"Clichês novos por exemplo: {s['cliches_novos_por_ex']}")
+    print(f"Clichês novos por exemplo: {s['cliches_novos_por_ex']} | "
+          f"padrões de IA novos por exemplo: {s['padroes_ia_novos_por_ex']}")
     print(f"Resultados: {json_path}")
 
 

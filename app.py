@@ -265,7 +265,7 @@ if output and st.session_state.last_original:
 
     with tab_style:
         so, sr = analyze(original), analyze(output)
-        m1, m2, m3, m4 = st.columns(4)
+        m1, m2, m3, m4, m5 = st.columns(5)
         m1.metric("Variação das frases", _fmt(sr.burstiness), _delta(sr.burstiness, so.burstiness),
                   help="Desvio padrão ÷ média do tamanho das frases. Mais alto = ritmo mais variado, "
                        "alternando frases curtas e longas. Precisa de 3 frases ou mais.")
@@ -277,6 +277,10 @@ if output and st.session_state.last_original:
                   help="Construções como \"foi realizado\" (contagem aproximada).")
         m4.metric("Clichês", sr.cliche_total, sr.cliche_total - so.cliche_total or None,
                   delta_color="inverse", help="Expressões batidas, como \"além disso\" e \"essencial\".")
+        m5.metric("Padrões de IA", sr.ai_pattern_total, sr.ai_pattern_total - so.ai_pattern_total or None,
+                  delta_color="inverse",
+                  help="Estruturas que soam artificiais: \"Não é só X. É Y.\", perguntas curtas de "
+                       "efeito, trios com a mesma palavra inicial e travessões em excesso.")
         st.caption("Os números pequenos mostram a diferença em relação ao original. São medidas "
                    "aproximadas de estilo: ajudam a revisar, mas não avaliam a qualidade do texto.")
 
@@ -288,12 +292,13 @@ if output and st.session_state.last_original:
             g2.markdown("**Palavras por frase — resultado**")
             g2.bar_chart(sr.lengths, height=180, x_label="frase", y_label="palavras")
 
-        if sr.cliches:
-            st.markdown("**Clichês no resultado** (destacados):")
+        if sr.cliches or sr.ai_patterns:
+            found = [f"{k} ({n})" for k, n in {**sr.cliches, **sr.ai_patterns}.items()]
+            st.markdown("**Clichês e padrões de IA no resultado** (destacados): " + ", ".join(found))
             st.markdown(f'<div class="hb-box">{highlight_cliches(output)}</div>',
                         unsafe_allow_html=True)
         else:
-            st.success("Nenhum clichê da lista encontrado no resultado.")
+            st.success("Nenhum clichê ou padrão de IA da lista encontrado no resultado.")
 
     with tab_side:
         s1, s2 = st.columns(2, gap="large")

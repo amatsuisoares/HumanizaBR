@@ -36,9 +36,11 @@ def _env_int(name: str, default: int) -> int:
 @dataclass(frozen=True)
 class Settings:
     # Modelo usado pelo Ollama (precisa estar baixado: `ollama pull <nome>`).
-    # Atenção: a tag "qwen3:4b" é a variante *Thinking*, que sempre "raciocina"
-    # antes de responder (lenta para reescrita). Usamos a variante Instruct.
-    model: str = "qwen3:4b-instruct-2507-q4_K_M"
+    # qwen3:8b foi o preferido na revisão humana (ver docs/AVALIACAO.md) e usa
+    # ~5,9 GB de VRAM. Para GPUs com 6 GB ou menos, use o mais leve
+    # "qwen3:4b-instruct-2507-q4_K_M" (3,7 GB). Atenção: a tag "qwen3:4b" é a
+    # variante *Thinking*, que sempre "raciocina" antes de responder (lenta).
+    model: str = "qwen3:8b"
     # Endereço do servidor Ollama. 127.0.0.1 = somente esta máquina.
     host: str = "http://127.0.0.1:11434"
     # Temperatura moderada: alguma variação de estilo, sem "criatividade" demais.

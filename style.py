@@ -13,6 +13,8 @@ Servem para medir se a reescrita ficou mais variada e menos "mecânica":
   da ideia de "vocabulário menos previsível".
 - **Voz passiva**: contagem heurística de "ser + particípio" ("foi realizado").
 - **Clichês**: expressões batidas, muito comuns em textos gerados por IA.
+- **Padrões de IA**: estruturas de frase repetitivas ("Não é só X. É Y.",
+  perguntas de efeito, trios com a mesma palavra, travessões em excesso).
 
 Todas são heurísticas: ajudam a revisar, mas não substituem a leitura humana.
 """
@@ -59,6 +61,22 @@ CLICHES: list[tuple[str, str]] = [
     ("inegável", r"inegáve(?:l|is)|inegavelmente"),
 ]
 _CLICHE_RES = [(label, re.compile(rf"\b(?:{rx})\b", re.IGNORECASE)) for label, rx in CLICHES]
+
+# Padrões de *estrutura* típicos de texto gerado por IA. Diferente dos clichês
+# (palavras), aqui o problema é a forma da frase. Encontrados na revisão humana
+# de saídas que soavam "robóticas" (ver docs/AVALIACAO.md).
+AI_PATTERNS: list[tuple[str, str]] = [
+    # "Não é só importante. É vida." / "não é só uma atividade — é um passo"
+    ("\"Não é só X. É Y.\"",
+     r"\bnão (?:é|são|foi|era) (?:mais )?(?:só|apenas|somente)\b[^.!?\n]{0,60}?[.!?;,—–]\s*(?:é|são|foi|era)\b"),
+    # Pergunta curta de efeito: "E o melhor?", "O resultado?", "Sabe por quê?"
+    ("pergunta de efeito", r"(?:^|(?<=[.!?…:—]\s))(?:[^\s.!?…]+\s+){0,3}[^\s.!?…]+\?"),
+    # Trio com a mesma palavra inicial: "nos move, nos transforma, nos torna"
+    ("trio repetitivo", r"\b(\w+)\s+\w+,\s+\1\s+\w+,?\s+(?:e\s+)?\1\s+\w+"),
+]
+_AI_PATTERN_RES = [(label, re.compile(rx, re.IGNORECASE | re.MULTILINE)) for label, rx in AI_PATTERNS]
+_DASH = re.compile(r"—|\s–\s")
+DASH_LABEL = "travessões em excesso"
 
 _WORD = re.compile(r"[A-Za-zÀ-ÖØ-öø-ÿ0-9]+(?:[-'][A-Za-zÀ-ÖØ-öø-ÿ]+)*")
 # Fim de frase: . ! ? … seguidos de espaço, ou quebra de linha.
@@ -119,9 +137,30 @@ def find_cliches(text: str) -> dict[str, int]:
     return found
 
 
+def _sentences_with_dash(text: str) -> int:
+    # Um par de travessões na mesma frase (aposto) conta como um só uso.
+    return sum(1 for sent in split_sentences(text) if _DASH.search(sent))
+
+
+def find_ai_patterns(text: str) -> dict[str, int]:
+    """Padrões estruturais de IA encontrados. Uma frase com travessão é aceitável; conta o excesso."""
+    found = {}
+    for label, rx in _AI_PATTERN_RES:
+        n = len(rx.findall(text))
+        if n:
+            found[label] = n
+    extra_dashes = _sentences_with_dash(text) - 1
+    if extra_dashes > 0:
+        found[DASH_LABEL] = extra_dashes
+    return found
+
+
 def cliche_spans(text: str) -> list[tuple[int, int]]:
-    """Posições (início, fim) dos clichês, sem sobreposição, em ordem."""
-    spans = sorted(m.span() for _, rx in _CLICHE_RES for m in rx.finditer(text))
+    """Posições (início, fim) de clichês e padrões de IA, sem sobreposição, em ordem."""
+    regexes = [rx for _, rx in _CLICHE_RES + _AI_PATTERN_RES]
+    if _sentences_with_dash(text) > 1:
+        regexes.append(_DASH)
+    spans = sorted(m.span() for rx in regexes for m in rx.finditer(text))
     merged: list[tuple[int, int]] = []
     for s, e in spans:
         if merged and s < merged[-1][1]:
@@ -138,6 +177,13 @@ def new_cliches(original: str, rewritten: str) -> dict[str, int]:
             if n > before.get(k, 0)}
 
 
+def new_ai_patterns(original: str, rewritten: str) -> dict[str, int]:
+    """Padrões de IA que aparecem MAIS vezes no resultado do que no original."""
+    before = find_ai_patterns(original)
+    return {k: n - before.get(k, 0) for k, n in find_ai_patterns(rewritten).items()
+            if n > before.get(k, 0)}
+
+
 @dataclass
 class StyleReport:
     words: int
@@ -147,18 +193,23 @@ class StyleReport:
     diversity: float | None
     passive: int
     cliches: dict[str, int] = field(default_factory=dict)
+    ai_patterns: dict[str, int] = field(default_factory=dict)
     lengths: list[int] = field(default_factory=list)
 
     @property
     def cliche_total(self) -> int:
         return sum(self.cliches.values())
 
+    @property
+    def ai_pattern_total(self) -> int:
+        return sum(self.ai_patterns.values())
+
     def to_dict(self) -> dict:
         r = lambda x: round(x, 3) if x is not None else None  # noqa: E731
         return {"palavras": self.words, "frases": self.sentences,
                 "media_frase": r(self.mean_sentence_len), "variacao_frases": r(self.burstiness),
                 "variedade_vocabulario": r(self.diversity), "voz_passiva": self.passive,
-                "cliches": self.cliche_total}
+                "cliches": self.cliche_total, "padroes_ia": self.ai_pattern_total}
 
 
 def analyze(text: str) -> StyleReport:
@@ -171,5 +222,6 @@ def analyze(text: str) -> StyleReport:
         diversity=lexical_diversity(text),
         passive=passive_count(text),
         cliches=find_cliches(text),
+        ai_patterns=find_ai_patterns(text),
         lengths=lengths,
     )

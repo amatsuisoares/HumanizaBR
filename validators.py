@@ -17,7 +17,7 @@ import re
 import unicodedata
 from dataclasses import dataclass, field
 
-from style import new_cliches
+from style import new_ai_patterns, new_cliches
 
 CRITICAL = "critico"
 WARNING = "aviso"
@@ -400,13 +400,21 @@ def validate(
             "O resultado parece começar com uma introdução ou comentário do modelo.",
         ))
 
-    # 7. Clichês que o modelo acrescentou (os que já estavam no original não contam).
+    # 7. Clichês e padrões de IA que o modelo acrescentou (os do original não contam).
     added = new_cliches(original, rewritten)
     if added:
         report.issues.append(Issue(
             WARNING, "clichês",
             "O resultado introduziu expressões batidas que não estavam no original.",
             sorted(added),
+        ))
+    added_patterns = new_ai_patterns(original, rewritten)
+    if added_patterns:
+        report.issues.append(Issue(
+            WARNING, "padrões de IA",
+            "O resultado introduziu estruturas típicas de texto gerado por IA, que costumam "
+            "soar artificiais.",
+            sorted(added_patterns),
         ))
 
     # 8. Tamanho e quantidade de alterações, conforme o modo.

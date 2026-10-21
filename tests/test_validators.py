@@ -229,3 +229,10 @@ def test_cliche_introduzido_gera_aviso():
 def test_cliche_que_ja_estava_no_original_nao_gera_aviso():
     r = validate("É essencial revisar o texto.", "Revisar o texto é essencial.")
     assert not any(i.category == "clichês" for i in r.issues)
+
+
+def test_padrao_de_ia_introduzido_gera_aviso():
+    r = validate("O plano básico custa R$ 99 por mês.",
+                 "E o melhor? O plano básico custa R$ 99 por mês.")
+    issue = next(i for i in r.issues if i.category == "padrões de IA")
+    assert issue.severity == WARNING and issue.items == ["pergunta de efeito"]
