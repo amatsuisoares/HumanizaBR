@@ -199,6 +199,7 @@ def rewrite(
             model=settings.model,
             messages=build_messages(text, mode, protected_terms),
             options=options,
+            think=settings.think,
         )
     except (ConnectionError, httpx.ConnectError) as exc:
         logger.warning("Falha de conexão com o Ollama em %s", settings.host)

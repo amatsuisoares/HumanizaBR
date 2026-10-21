@@ -45,6 +45,33 @@ estatisticamente equivalentes.
 - **v4** — retirou a brecha "a menos que o texto exija outro idioma" da regra de
   idioma. Não teve efeito mensurável no `inj-02`.
 
+## Benchmark de modelos (prompt v4)
+
+| Modelo | Licença | Aprovação | Natural | Acadêmico | Profissional | Conciso | Gramática | Alertas críticos/ex. | Estabilidade | VRAM |
+|---|---|---|---|---|---|---|---|---|---|---|
+| `qwen3:4b-instruct-2507-q4_K_M` (padrão) | Apache 2.0 | 87% | 96% | 86% | 88% | 100% | 60% | 0,03 | 0,97 | 3,7 GB |
+| `qwen3:8b` (`think=False`) | Apache 2.0 | **94%** | 92% | 100% | 96% | 100% | 80% | **0** | 0,94 | 5,9 GB |
+
+- O 8B resolveu as duas injeções (`inj-01`, `inj-02`), a expansão indevida de
+  sigla (`nom-04`) e a vírgula indevida (`cur-01`).
+- O 8B falhou em `inf-02`: trocou "mando amanhã cedo" por "assim que possível,
+  com certa antecedência". É uma **alteração de conteúdo não detectada** pelo validador.
+- Nenhum dos dois corrige "Fazem dois anos" (`gra-01`).
+- **Latência não comparável.** O benchmark do 8B rodou com jogos abertos
+  disputando a GPU (53% de uso em repouso). Nessas condições, até o 4B caiu de
+  ~110 para ~25 tokens/s. A latência medida do 8B (média de 8,7 s) **não
+  representa** o desempenho real e precisa ser medida de novo com a GPU livre.
+  Medição isolada com a GPU disputada: 8B a 4–5 tokens/s com contexto de 8.192
+  e 11–12 tokens/s com contexto de 4.096 (o cache menor libera VRAM).
+
+**Decisão:** o 4B continua como padrão por ser muito mais rápido e por caber
+com folga em GPUs de 6 GB (ex.: RTX 4050). O 8B é a opção recomendada quando a
+prioridade for qualidade: `$env:HUMANIZA_MODEL = "qwen3:8b"`.
+
+Modelos considerados e não testados: `mistral:7b` (Apache 2.0, 4,4 GB),
+`gemma3:4b` (Gemma Terms of Use, 3,4 GB) e `llama3.1:8b` (Llama 3.1 Community
+License, 4,9 GB).
+
 ## Achados importantes
 
 1. **A tag `qwen3:4b` é a variante *Thinking*.** Ela raciocina sempre, ignora

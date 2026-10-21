@@ -130,6 +130,7 @@ def test_parametros_de_geracao_vem_da_configuracao():
     assert call["model"] == "modelo-teste"
     assert call["options"]["temperature"] == SETTINGS.temperature
     assert call["options"]["num_predict"] == SETTINGS.max_output_tokens
+    assert call["think"] is False  # raciocínio de modelos híbridos desligado por padrão
 
 
 def test_temperatura_especifica_do_modo_gramatica():

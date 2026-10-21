@@ -52,6 +52,9 @@ class Settings:
     max_input_chars: int = 6000
     # Tempo máximo de espera por uma resposta do modelo, em segundos.
     timeout_seconds: float = 300.0
+    # Modo de "raciocínio" de modelos híbridos (ex.: qwen3:8b). Desligado: para
+    # reescrita, raciocinar custa muito tempo e não trouxe ganho observável.
+    think: bool = False
 
     @classmethod
     def from_env(cls) -> "Settings":
@@ -65,4 +68,5 @@ class Settings:
             context_window=_env_int("HUMANIZA_CONTEXT_WINDOW", d.context_window),
             max_input_chars=_env_int("HUMANIZA_MAX_INPUT_CHARS", d.max_input_chars),
             timeout_seconds=_env_float("HUMANIZA_TIMEOUT", d.timeout_seconds),
+            think=_env_str("HUMANIZA_THINK", str(d.think)).lower() in ("1", "true", "sim"),
         )

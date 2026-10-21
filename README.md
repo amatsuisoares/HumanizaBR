@@ -140,9 +140,10 @@ versões) e um `.md` (original × resultado, para revisão humana). O nome do
 arquivo inclui modelo e `PROMPT_VERSION`. Ao alterar instruções em `modes.py`,
 **incremente `PROMPT_VERSION`**.
 
-Resultado atual: **87% de aprovação** nos critérios objetivos (v1 do prompt:
-76%), ~0,5 s por reescrita e 3,7 GB de VRAM. Detalhes em
-[docs/AVALIACAO.md](docs/AVALIACAO.md).
+Resultado atual: **87% de aprovação** nos critérios objetivos com o modelo
+padrão (v1 do prompt: 76%), ~0,5 s por reescrita e 3,7 GB de VRAM. O
+`qwen3:8b` chegou a **94%**, sem alertas críticos, usando 5,9 GB de VRAM.
+Detalhes em [docs/AVALIACAO.md](docs/AVALIACAO.md).
 
 ## Trocar o modelo
 
@@ -154,6 +155,10 @@ ollama pull <modelo>
 $env:HUMANIZA_MODEL = "<modelo>"
 .\.venv\Scripts\python.exe -m streamlit run app.py
 ```
+
+Para mais qualidade (veja o benchmark), use `qwen3:8b`: `ollama pull qwen3:8b`
+e `$env:HUMANIZA_MODEL = "qwen3:8b"`. O raciocínio de modelos híbridos fica
+desligado por padrão (`HUMANIZA_THINK`).
 
 Outras variáveis: `HUMANIZA_TEMPERATURE`, `HUMANIZA_MAX_OUTPUT_TOKENS`,
 `HUMANIZA_CONTEXT_WINDOW`, `HUMANIZA_MAX_INPUT_CHARS`, `HUMANIZA_TIMEOUT`,
@@ -238,8 +243,8 @@ tokens gerados, duração e motivo de término de cada geração.
 
 ## Roteiro
 
-1. **Benchmark** com outros modelos locais que caibam em 8 GB de VRAM, usando o
-   mesmo conjunto e os mesmos critérios.
+1. **Benchmark:** medir de novo a latência do `qwen3:8b` com a GPU livre e
+   testar `mistral:7b`, `gemma3:4b` e `llama3.1:8b` com o mesmo conjunto.
 2. **Revisão humana** dos relatórios em `evaluation/results/*.md`.
 3. Controle de intensidade da reescrita e de tamanho desejado.
 4. Divisão automática de textos longos por parágrafo.
