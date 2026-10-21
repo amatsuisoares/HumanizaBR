@@ -120,6 +120,14 @@ pip install -r requirements.txt
 
 ## Execução
 
+**Jeito mais fácil:** dê dois cliques em [`iniciar.bat`](iniciar.bat). Ele
+inicia o Ollama, se precisar, e abre o app no navegador. Para encerrar, feche
+a janela preta. Dá para criar um atalho na Área de Trabalho: clique com o
+botão direito no arquivo → "Mostrar mais opções" → "Enviar para" → "Área de
+trabalho (criar atalho)".
+
+Pelo terminal:
+
 ```powershell
 .\.venv\Scripts\python.exe -m streamlit run app.py
 ```
