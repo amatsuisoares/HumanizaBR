@@ -1,0 +1,17 @@
+# Configuração do Streamlit para o HumanizaBR.
+
+[server]
+# Aceita conexões apenas desta máquina (não expõe a interface na rede local).
+address = "127.0.0.1"
+port = 8501
+
+[browser]
+# Desativa a coleta de estatísticas de uso do Streamlit (telemetria).
+gatherUsageStats = false
+serverAddress = "localhost"
+
+[client]
+toolbarMode = "minimal"
+
+[theme]
+primaryColor = "#4F46E5"

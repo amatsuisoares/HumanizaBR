@@ -1,0 +1,29 @@
+# Ambiente virtual
+.venv/
+venv/
+
+# Caches do Python e do pytest
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Arquivos temporários e de sistema
+*.tmp
+*.log
+Thumbs.db
+.DS_Store
+
+# Segredos e configurações locais (o projeto não usa nenhum, mas por precaução)
+.env
+.streamlit/secrets.toml
+
+# Textos e resultados privados: coloque aqui o que nunca deve ir para o Git.
+# (evaluation/results/ É versionado: contém apenas os exemplos públicos de examples.json.)
+private/
+*.private.*
+
+# Pesos de modelos (o Ollama os guarda em %USERPROFILE%\.ollama, fora do projeto)
+models/
+*.gguf
+*.safetensors
+*.bin

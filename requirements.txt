@@ -1,0 +1,5 @@
+# Versões testadas em 2026-10-20 (Python 3.12, Windows 11).
+ollama==0.6.3       # cliente oficial do Ollama (MIT)
+httpx==0.28.1       # usado pelo cliente; importado para tratar erros de rede (BSD-3)
+streamlit==1.66.0   # interface web (Apache 2.0)
+pytest==9.1.1       # testes automatizados (MIT)
