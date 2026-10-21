@@ -17,6 +17,8 @@ import re
 import unicodedata
 from dataclasses import dataclass, field
 
+from style import new_cliches
+
 CRITICAL = "critico"
 WARNING = "aviso"
 
@@ -398,7 +400,16 @@ def validate(
             "O resultado parece começar com uma introdução ou comentário do modelo.",
         ))
 
-    # 7. Tamanho e quantidade de alterações, conforme o modo.
+    # 7. Clichês que o modelo acrescentou (os que já estavam no original não contam).
+    added = new_cliches(original, rewritten)
+    if added:
+        report.issues.append(Issue(
+            WARNING, "clichês",
+            "O resultado introduziu expressões batidas que não estavam no original.",
+            sorted(added),
+        ))
+
+    # 8. Tamanho e quantidade de alterações, conforme o modo.
     len_o, len_r = len(original.split()), len(rewritten.split())
     ratio = len_r / len_o if len_o else 0.0
     similarity = text_similarity(original, rewritten)

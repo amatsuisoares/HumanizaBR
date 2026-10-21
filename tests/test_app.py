@@ -79,3 +79,16 @@ def test_limpar(app):
     click(app, "Limpar")
     assert app.text_area(key="input_text").value == ""
     assert app.text_area(key="output_text").value == ""
+
+
+def test_aba_estilo_mostra_metricas_e_cliches(app):
+    with patch("humanizer.rewrite", side_effect=lambda t, m, **k: RewriteResult(
+            text="Além disso, o texto ficou bom. Foi revisado. Todo mundo leu com calma.",
+            mode=m, model="fake", duration_s=0.1, truncated=False, output_tokens=5)):
+        app.text_area(key="input_text").input("O texto ficou bom e todos leram.").run()
+        click(app, "✨ Reescrever")
+    assert not app.exception
+    labels = {m.label for m in app.metric}
+    assert {"Variação das frases", "Variedade de vocabulário", "Voz passiva", "Clichês"} <= labels
+    assert next(m for m in app.metric if m.label == "Clichês").value == "1"
+    assert any("<mark>Além disso</mark>" in md.value for md in app.markdown)

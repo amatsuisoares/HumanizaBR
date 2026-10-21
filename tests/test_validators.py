@@ -217,3 +217,15 @@ def test_resultado_vazio():
 ])
 def test_texto_identico_nao_gera_alertas(texto):
     assert not validate(texto, texto).issues
+
+
+def test_cliche_introduzido_gera_aviso():
+    r = validate("O teste mostrou um erro no login.",
+                 "Além disso, o teste mostrou um erro crucial no login.")
+    issue = next(i for i in r.issues if i.category == "clichês")
+    assert issue.severity == WARNING and issue.items == ["além disso", "crucial"]
+
+
+def test_cliche_que_ja_estava_no_original_nao_gera_aviso():
+    r = validate("É essencial revisar o texto.", "Revisar o texto é essencial.")
+    assert not any(i.category == "clichês" for i in r.issues)

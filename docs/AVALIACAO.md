@@ -5,15 +5,15 @@ Markdown para revisão humana) estão em [`evaluation/results/`](../evaluation/r
 
 ## Metodologia
 
-- **Conjunto:** 34 exemplos em [`evaluation/examples.json`](../evaluation/examples.json),
-  em 12 categorias (números e datas, nomes e siglas, citações acadêmicas, termos
+- **Conjunto:** 40 exemplos em [`evaluation/examples.json`](../evaluation/examples.json),
+  em 13 categorias (expressivo, números e datas, nomes e siglas, citações acadêmicas, termos
   técnicos, textos curtos, ressalvas, negação, linguagem informal, correção
   gramatical, injeção de instruções, listas, textos profissionais/acadêmicos),
-  cobrindo os 5 modos.
+  cobrindo os 6 modos.
 - **Critérios objetivos por exemplo:** `must_keep` (trecho exato), `must_keep_any`
   (ao menos uma alternativa por grupo), `must_not_contain` e, para todos, saída
   com no máximo 2,5× o tamanho do original.
-- **Execuções:** 3 por exemplo (102 gerações). *Estabilidade* = fração de
+- **Execuções:** 3 por exemplo (120 gerações; 102 até a v4). *Estabilidade* = fração de
   exemplos com o mesmo resultado (aprovado/reprovado) nas 3 execuções.
 - **Hardware:** Ryzen 7 5700X, RTX 5060 8 GB, 32 GB RAM, Windows 11, Ollama 0.40.6.
 - Todas as versões foram **re-pontuadas com o mesmo gabarito final**
@@ -71,6 +71,86 @@ prioridade for qualidade: `$env:HUMANIZA_MODEL = "qwen3:8b"`.
 Modelos considerados e não testados: `mistral:7b` (Apache 2.0, 4,4 GB),
 `gemma3:4b` (Gemma Terms of Use, 3,4 GB) e `llama3.1:8b` (Llama 3.1 Community
 License, 4,9 GB).
+
+## Modo Expressivo e métricas de estilo (prompts v5 e v6)
+
+Objetivo: textos com mais variação no tamanho das frases, vocabulário mais
+variado, voz ativa, tom levemente coloquial, no máximo uma metáfora e sem
+clichês ("além disso", "essencial", "fundamental"...). Para medir isso, foram
+criados 6 exemplos `exp-*` (textos cheios de clichês, voz passiva e frases
+repetitivas) e as métricas de [`style.py`](../style.py), registradas para
+todos os modos.
+
+- **v5:** regra 13 em todos os modos ("não introduza clichês") e o modo
+  Expressivo (temperatura 0,8).
+- **v6:** o Expressivo passou a exigir uma frase bem curta e a proteger
+  palavras-chave do assunto, negações e gramática. Motivo: na v5, o 4B trocou
+  "não foi aprovado" por "foi rejeitado", "educação" por "escola", e escreveu
+  "habitude" e "não todos" (no lugar de "nem todos").
+
+| Modelo / prompt | Aprovação nos 5 modos originais | Aprovação no Expressivo | Variação das frases (orig. → result.) | Vocabulário | Voz passiva/ex. | Clichês/ex. | Clichês novos/ex. (todos os modos) |
+|---|---|---|---|---|---|---|---|
+| 4B / v4 | 87% | — | — | — | — | — | 0 |
+| 4B / v5 | 87% | 39% | 0,33 → 0,32 | 0,87 → 0,90 | 1,5 → 0,6 | 2,2 → 0,1 | 0 |
+| 4B / v6 | 85% | 61% | 0,33 → 0,35 | 0,87 → 0,89 | 1,5 → 0,7 | 2,2 → 0,06 | 0,008 |
+| 8B / v6 | 94% | 67% | 0,33 → **0,23** | 0,87 → 0,93 | 1,5 → 0,4 | 2,2 → 0,39 | 0,04 |
+
+(As colunas de estilo são médias dos exemplos do Expressivo. "Variação das
+frases" só é calculada com 3 frases ou mais.)
+
+O que os números mostram:
+
+- **Clichês e voz passiva caíram bastante** nos dois modelos. Nos outros modos,
+  a regra 13 praticamente zerou os clichês introduzidos pelo modelo.
+- **A variação no tamanho das frases quase não mudou.** O 4B ficou em torno do
+  original, e o 8B produziu frases *mais* uniformes. Instrução em texto,
+  sozinha, não garante esse aspecto em modelos deste tamanho.
+- **O 4B é mais "ousado", mas menos fiel:** troca o sentido de negações e
+  palavras-chave. O **8B é mais fiel, mas mais conservador**: às vezes copia o
+  clichê do original ("Além disso, é importante lembrar...").
+- Nos 5 modos originais, a v6 não piorou de forma mensurável (85% × 87% é
+  menos de um exemplo de diferença). Uma exceção: o 4B passou a manter "Blz?"
+  no `inf-02` (modo Profissional) nas 3 execuções.
+- Critérios corrigidos: aceitar "assegurada" como equivalente a "garantida"
+  (`res-03`), "instantânea" a "tempo real" (`exp-05`) e paráfrases fiéis em
+  `exp-04`/`exp-06` ("não passou pela aprovação", "não confirmam ainda",
+  "nem todas"). Todas as versões foram re-pontuadas com o gabarito final.
+
+**Latência do 8B medida de novo com a GPU livre:** média de 0,75 s (máximo de
+6,7 s, no carregamento do modelo), contra 0,45 s do 4B. A medição anterior
+(8,7 s) tinha sido feita com jogos disputando a GPU.
+
+## `qwen3:30b-a3b-instruct-2507-q4_K_M` e prompt v7
+
+Modelo de 30,5B parâmetros do tipo *mixture of experts* (~3B ativos por
+token), Apache 2.0, 18,6 GB. Não cabe nos 8 GB da RTX 5060: o Ollama coloca
+~6 GB na GPU e o restante na RAM. Primeira carga: ~41 s; depois, ~2,5 s por
+reescrita.
+
+**v7:** o Expressivo proíbe frases de comentário, slogans e conclusões novas,
+pede tamanho parecido com o original, e a temperatura do modo cai de 0,8 para
+0,7. Na avaliação, os exemplos do Expressivo passaram a reprovar acima de
+1,6× o tamanho do original (`max_length_ratio`), para que conteúdo
+inventado conte como falha.
+
+| Modelo / prompt | 5 modos originais | Gramática | Expressivo | Variação das frases no Expressivo (orig. 0,33) | Clichês no Expressivo (orig. 2,2) | Estabilidade | Latência média |
+|---|---|---|---|---|---|---|---|
+| 4B / v6 | 85% | 60% | 61% | 0,35 | 0,06 | 0,93 | 0,45 s |
+| 8B / v6 | 94% | 80% | 67% | 0,23 | 0,39 | 0,95 | 0,75 s |
+| 8B / v7 | 96% | 80% | 67% | 0,21 | 0,33 | 0,98 | 0,76 s |
+| 30B-A3B / v6 | 96% | **100%** | 61% | **0,53** | 0,28 | 0,88 | 2,5 s |
+| 30B-A3B / v7 | **96%** | **100%** | 67% | **0,47** | **0,11** | 0,93 | 2,5 s |
+
+- O 30B corrigiu o `gra-01` ("Fazem dois anos" → "Faz dois anos") e o
+  `cur-01`, falhas que 4B e 8B nunca resolveram.
+- No Expressivo, o 30B é o único com variação de ritmo de verdade, mas
+  **enfeita**: "Puro presente.", "Ler é respirar.", "como se fossem um relógio
+  de sol". A v7 reduziu, sem eliminar. Esse tipo de acréscimo só é pego quando
+  aumenta muito o tamanho do texto.
+- Falhas do 30B nos outros modos: troca "provavelmente" por "há possibilidade"
+  (`res-03`, ressalva enfraquecida, com aviso do validador) e, em 1 de 3
+  execuções, "uma hora" por "quase sessenta minutos" (`inf-01`, alerta crítico).
+- O 8B continua fiel e 3× mais rápido, mas com frases uniformes no Expressivo.
 
 ## Achados importantes
 

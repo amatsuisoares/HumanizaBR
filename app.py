@@ -24,6 +24,7 @@ import streamlit as st
 from config import Settings
 from humanizer import HumanizerError, InvalidInputError, check_ollama, rewrite
 from modes import MODES
+from style import analyze, cliche_spans
 from validators import CRITICAL, validate
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
@@ -41,6 +42,7 @@ st.markdown(
                 border: 1px solid rgba(128,128,128,0.25); white-space: pre-wrap;}
       .hb-diff del {background: rgba(239,68,68,0.18); color: inherit; text-decoration: line-through;}
       .hb-diff ins {background: rgba(34,197,94,0.22); color: inherit; text-decoration: none;}
+      .hb-diff mark, .hb-box mark {background: rgba(245,158,11,0.3); color: inherit; border-radius: 3px;}
       .hb-box {padding: 0.9rem 1rem; border-radius: 0.6rem; white-space: pre-wrap;
                border: 1px solid rgba(128,128,128,0.25); min-height: 4rem;}
     </style>
@@ -91,6 +93,29 @@ def word_diff_html(a: str, b: str) -> str:
         if op in ("insert", "replace"):
             out.append(f"<ins>{new}</ins>")
     return "".join(out)
+
+
+def highlight_cliches(text: str) -> str:
+    """Texto em HTML (escapado) com os clichês marcados."""
+    out, pos = [], 0
+    for start, end in cliche_spans(text):
+        out += [html.escape(text[pos:start]), f"<mark>{html.escape(text[start:end])}</mark>"]
+        pos = end
+    out.append(html.escape(text[pos:]))
+    return "".join(out)
+
+
+def _fmt(value: float | None, pct: bool = False) -> str:
+    if value is None:
+        return "—"
+    return f"{value:.0%}" if pct else f"{value:.2f}"
+
+
+def _delta(new: float | None, old: float | None, pct: bool = False) -> str | None:
+    if new is None or old is None:
+        return None
+    d = new - old
+    return f"{d:+.0%}" if pct else f"{d:+.2f}"
 
 
 # ------------------------------------------------------------------ barra lateral
@@ -219,7 +244,8 @@ if output and st.session_state.last_original:
     # Se o usuário editou o resultado, as verificações são refeitas sobre a versão editada.
     report = validate(original, output, st.session_state.last_mode or mode, protected_terms)
 
-    tab_check, tab_side, tab_diff = st.tabs(["Verificações", "Lado a lado", "Diferenças"])
+    tab_check, tab_style, tab_side, tab_diff = st.tabs(
+        ["Verificações", "Estilo", "Lado a lado", "Diferenças"])
 
     with tab_check:
         if meta and meta.truncated:
@@ -236,6 +262,38 @@ if output and st.session_state.last_original:
             f"Similaridade com o original: {report.stats.get('similaridade', 0):.0%} · "
             f"Tamanho relativo: {report.stats.get('razao_tamanho', 0):.0%}"
         )
+
+    with tab_style:
+        so, sr = analyze(original), analyze(output)
+        m1, m2, m3, m4 = st.columns(4)
+        m1.metric("Variação das frases", _fmt(sr.burstiness), _delta(sr.burstiness, so.burstiness),
+                  help="Desvio padrão ÷ média do tamanho das frases. Mais alto = ritmo mais variado, "
+                       "alternando frases curtas e longas. Precisa de 3 frases ou mais.")
+        m2.metric("Variedade de vocabulário", _fmt(sr.diversity, pct=True),
+                  _delta(sr.diversity, so.diversity, pct=True),
+                  help="Fração de palavras diferentes (MATTR, janelas de 50 palavras). "
+                       "Mais alto = menos repetição.")
+        m3.metric("Voz passiva", sr.passive, sr.passive - so.passive or None, delta_color="inverse",
+                  help="Construções como \"foi realizado\" (contagem aproximada).")
+        m4.metric("Clichês", sr.cliche_total, sr.cliche_total - so.cliche_total or None,
+                  delta_color="inverse", help="Expressões batidas, como \"além disso\" e \"essencial\".")
+        st.caption("Os números pequenos mostram a diferença em relação ao original. São medidas "
+                   "aproximadas de estilo: ajudam a revisar, mas não avaliam a qualidade do texto.")
+
+        g1, g2 = st.columns(2, gap="large")
+        if so.lengths:
+            g1.markdown("**Palavras por frase — original**")
+            g1.bar_chart(so.lengths, height=180, x_label="frase", y_label="palavras")
+        if sr.lengths:
+            g2.markdown("**Palavras por frase — resultado**")
+            g2.bar_chart(sr.lengths, height=180, x_label="frase", y_label="palavras")
+
+        if sr.cliches:
+            st.markdown("**Clichês no resultado** (destacados):")
+            st.markdown(f'<div class="hb-box">{highlight_cliches(output)}</div>',
+                        unsafe_allow_html=True)
+        else:
+            st.success("Nenhum clichê da lista encontrado no resultado.")
 
     with tab_side:
         s1, s2 = st.columns(2, gap="large")

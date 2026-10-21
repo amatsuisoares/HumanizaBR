@@ -18,7 +18,13 @@ Critérios objetivos de cada exemplo:
   - must_keep_any: grupos de alternativas; ao menos uma de cada grupo deve
     aparecer (sem diferenciar maiúsculas);
   - must_not_contain: trechos proibidos (indicam erro ou instrução obedecida);
+  - tamanho: no máximo MAX_LENGTH_RATIO (ou max_length_ratio do exemplo) vezes
+    o número de palavras do original;
   - alertas críticos do validators.py (contados, não reprovam sozinhos).
+
+Métricas de estilo (style.py), medidas à parte e sem reprovar exemplos:
+variação do tamanho das frases, variedade de vocabulário, voz passiva e
+clichês, no original e no resultado.
 """
 
 from __future__ import annotations
@@ -39,6 +45,7 @@ sys.path.insert(0, str(ROOT))
 from config import Settings  # noqa: E402
 from humanizer import HumanizerError, make_client, rewrite  # noqa: E402
 from modes import PROMPT_VERSION  # noqa: E402
+from style import analyze, new_cliches  # noqa: E402
 from validators import validate  # noqa: E402
 
 EXAMPLES = Path(__file__).with_name("examples.json")
@@ -69,10 +76,24 @@ def check_example(example: dict, output: str) -> list[str]:
     # Critério global: nas saídas legítimas medidas, a maior razão foi ~1,5.
     # Bem acima disso, o modelo provavelmente obedeceu a uma instrução do texto
     # ou inventou conteúdo.
+    # Um exemplo pode exigir um limite mais rígido (max_length_ratio).
     ratio = len(output.split()) / max(1, len(example["text"].split()))
-    if ratio > MAX_LENGTH_RATIO:
+    if ratio > example.get("max_length_ratio", MAX_LENGTH_RATIO):
         failures.append(f"resultado {ratio:.1f}x mais longo que o original")
     return failures
+
+
+STYLE_KEYS = ["variacao_frases", "variedade_vocabulario", "voz_passiva", "cliches"]
+
+
+def style_metrics(original: str, output: str) -> dict:
+    """Métricas de estilo do original (_in) e do resultado (_out)."""
+    if not output:
+        return {}
+    a, b = analyze(original).to_dict(), analyze(output).to_dict()
+    metrics = {f"{k}_in": a[k] for k in STYLE_KEYS} | {f"{k}_out": b[k] for k in STYLE_KEYS}
+    metrics["cliches_novos"] = sum(new_cliches(original, output).values())
+    return metrics
 
 
 def vram_usage_mb(client, model: str) -> int | None:
@@ -111,6 +132,7 @@ def run_evaluation(settings: Settings, examples: list[dict], runs: int) -> dict:
                 "warnings": len(report.warnings) if report else None,
                 "alerts": [f"{i.severity}:{i.category}:{', '.join(i.items)}" for i in report.issues] if report else [],
                 "stats": report.stats if report else {},
+                "style": style_metrics(ex["text"], output),
             })
             status = "OK " if not failures else "FALHOU"
             print(f"[{n:>3}/{total}] {status} {ex['id']:<8} {ex['mode']:<12} "
@@ -144,6 +166,17 @@ def summarize(records: list[dict]) -> dict:
         outcomes.setdefault(r["id"], set()).add(r["passed"])
     stable = sum(1 for v in outcomes.values() if len(v) == 1) / len(outcomes) if outcomes else None
 
+    def mean_of(rs, key):
+        vals = [r["style"][key] for r in rs if r.get("style", {}).get(key) is not None]
+        return round(statistics.mean(vals), 3) if vals else None
+
+    style_by_mode = {}
+    for mode in sorted({r["mode"] for r in records}):
+        rs = [r for r in records if r["mode"] == mode]
+        style_by_mode[mode] = {f"{k}_{s}": mean_of(rs, f"{k}_{s}")
+                               for k in STYLE_KEYS for s in ("in", "out")}
+        style_by_mode[mode]["cliches_novos"] = mean_of(rs, "cliches_novos")
+
     return {
         "pass_rate": rate(records),
         "by_category": by("category"),
@@ -154,6 +187,8 @@ def summarize(records: list[dict]) -> dict:
         "latency_mean_s": round(statistics.mean(durations), 2) if durations else None,
         "latency_max_s": round(max(durations), 2) if durations else None,
         "stability": round(stable, 3) if stable is not None else None,
+        "cliches_novos_por_ex": mean_of(records, "cliches_novos"),
+        "style_by_mode": style_by_mode,
     }
 
 
@@ -170,7 +205,16 @@ def write_markdown(result: dict, path: Path) -> None:
         "Revisão humana sugerida (1 a 5): **fidelidade** (mesmo significado e ressalvas), "
         "**fluência** (português natural e correto), **adequação ao modo**.",
         "",
+        "## Estilo por modo (médias: original → resultado)",
+        "",
+        "| Modo | Variação das frases | Variedade de vocabulário | Voz passiva | Clichês | Clichês novos |",
+        "|---|---|---|---|---|---|",
     ]
+    for mode, st in s.get("style_by_mode", {}).items():
+        cell = lambda k: f"{st[k + '_in']} → {st[k + '_out']}"  # noqa: E731
+        lines.append(f"| {mode} | {cell('variacao_frases')} | {cell('variedade_vocabulario')} | "
+                     f"{cell('voz_passiva')} | {cell('cliches')} | {st['cliches_novos']} |")
+    lines.append("")
     for r in result["records"]:
         if r["run"] != 1:
             continue
@@ -184,6 +228,12 @@ def write_markdown(result: dict, path: Path) -> None:
         ]
         if r["failures"]:
             lines.append(f"**Falhas:** {'; '.join(r['failures'])}  ")
+        if r.get("style"):
+            st = r["style"]
+            lines.append(f"**Estilo:** variação das frases {st['variacao_frases_in']} → "
+                         f"{st['variacao_frases_out']} · vocabulário {st['variedade_vocabulario_in']} → "
+                         f"{st['variedade_vocabulario_out']} · passiva {st['voz_passiva_in']} → "
+                         f"{st['voz_passiva_out']} · clichês {st['cliches_in']} → {st['cliches_out']}  ")
         if r["alerts"]:
             lines.append(f"**Alertas do validador:** {'; '.join(r['alerts'])}  ")
         lines += ["**Nota humana:** fidelidade _ · fluência _ · modo _", ""]
@@ -202,6 +252,13 @@ def compare(path_a: Path, path_b: Path) -> None:
     print("\nPor modo:")
     for mode in a["summary"]["by_mode"]:
         print(f"  {mode:<20} {str(a['summary']['by_mode'][mode]):<45} {b['summary']['by_mode'].get(mode)}")
+
+    print("\nEstilo por modo (resultado; A → B):")
+    for mode, sa in a["summary"].get("style_by_mode", {}).items():
+        sb = b["summary"].get("style_by_mode", {}).get(mode, {})
+        cells = [f"{k}: {sa.get(k + '_out')} → {sb.get(k + '_out')}" for k in STYLE_KEYS]
+        print(f"  {mode:<12} " + " · ".join(cells) +
+              f" · clichês novos: {sa.get('cliches_novos')} → {sb.get('cliches_novos')}")
 
     passed = lambda res: {r["id"] for r in res["records"] if r["run"] == 1 and r["passed"]}  # noqa: E731
     pa, pb = passed(a), passed(b)
@@ -227,6 +284,7 @@ def rescore(path: Path) -> Path:
         report = validate(r["input"], r["output"], r["mode"])
         r["critical_alerts"], r["warnings"] = len(report.critical), len(report.warnings)
         r["alerts"] = [f"{i.severity}:{i.category}:{', '.join(i.items)}" for i in report.issues]
+        r["style"] = style_metrics(r["input"], r["output"])
     result["summary"] = summarize(result["records"])
     result["meta"]["rescored_at"] = datetime.now().isoformat(timespec="seconds")
     path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -276,6 +334,7 @@ def main() -> None:
           f"alertas críticos/ex. {s['avg_critical_alerts']} | estabilidade {s['stability']} | "
           f"VRAM {result['meta']['vram_mb']} MB")
     print(f"Por modo: {s['by_mode']}")
+    print(f"Clichês novos por exemplo: {s['cliches_novos_por_ex']}")
     print(f"Resultados: {json_path}")
 
 

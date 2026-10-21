@@ -13,14 +13,20 @@ medida de qualidade.
 
 ## Funcionalidades
 
-- 5 modos: **Natural e fluido**, **Acadêmico**, **Profissional**, **Conciso** e
-  **Correção gramatical**.
+- 6 modos: **Natural e fluido**, **Acadêmico**, **Profissional**, **Conciso**,
+  **Correção gramatical** e **Expressivo** (voz ativa, ritmo variado,
+  vocabulário rico, tom levemente coloquial e sem clichês).
+- **Métricas de estilo** (aba "Estilo"): variação do tamanho das frases,
+  variedade de vocabulário, voz passiva e clichês, comparando original e
+  resultado, com gráfico de palavras por frase e clichês destacados.
 - Resultado editável, botão de copiar, download em `.txt` e opção de reescrever de novo.
 - Comparação **lado a lado** e **diferenças destacadas** palavra a palavra.
 - **Verificações automáticas de fidelidade**: números, datas, citações,
   trechos entre aspas, URLs, siglas, nomes próprios, termos técnicos, termos
   protegidos pelo usuário, negações, grau de certeza, idioma e tamanho. Elas
   avisam sobre alterações possivelmente críticas em vez de declarar o texto "correto".
+- Nenhum modo introduz clichês que não estavam no original (regra no prompt e
+  aviso automático quando acontece).
 - Limite configurável de entrada, mensagens de erro compreensíveis, nada salvo em disco.
 
 ## Arquitetura
@@ -36,7 +42,13 @@ medida de qualidade.
 ┌──────────────┐                  ┌───────────────┐   ┌───────────┐
 │validators.py │                  │   modes.py    │   │ config.py │
 │ (fidelidade) │                  │ (instruções)  │   │ (ajustes) │
-└──────────────┘                  └───────────────┘   └───────────┘
+└──────┬───────┘                  └───────┬───────┘   └───────────┘
+       └──────────────┬───────────────────┘ lista de clichês
+                      ▼
+               ┌──────────────┐
+               │   style.py   │
+               │ (estilo)     │
+               └──────────────┘
 ```
 
 A interface **não** contém lógica de reescrita. Para trocar o Streamlit por
@@ -48,10 +60,11 @@ outra tecnologia, basta chamar `humanizer.rewrite()` e `validators.validate()`.
 | [`humanizer.py`](humanizer.py) | Motor: valida a entrada, monta o prompt, chama o Ollama, trata erros, limpa a resposta |
 | [`modes.py`](modes.py) | Regras gerais, instruções de cada modo e exemplo demonstrativo; `PROMPT_VERSION` |
 | [`validators.py`](validators.py) | Verificações determinísticas entre original e resultado |
+| [`style.py`](style.py) | Métricas de estilo e lista de clichês (usada no prompt e na detecção) |
 | [`config.py`](config.py) | Parâmetros (modelo, temperatura, limites), sobrescrevíveis por variáveis de ambiente |
 | [`.streamlit/config.toml`](.streamlit/config.toml) | Interface só em `127.0.0.1` e telemetria do Streamlit desligada |
 | [`tests/`](tests/) | Testes unitários, de interface e de integração |
-| [`evaluation/`](evaluation/) | 34 exemplos de avaliação, script de avaliação e resultados |
+| [`evaluation/`](evaluation/) | 40 exemplos de avaliação, script de avaliação e resultados |
 | [`docs/AVALIACAO.md`](docs/AVALIACAO.md) | Resultados e achados dos experimentos |
 
 ### Decisões técnicas
@@ -61,8 +74,13 @@ outra tecnologia, basta chamar `humanizer.rewrite()` e `validators.validate()`.
 - **Modelo padrão: `qwen3:4b-instruct-2507-q4_K_M`** (Apache 2.0, ~2,5 GB).
   A tag `qwen3:4b` aponta para a variante *Thinking*, que "raciocina" antes de
   cada resposta e levou ~80 s por frase. A variante *Instruct* responde em ~0,5 s.
-- **Temperatura 0,4** (0,1 no modo Correção gramatical): variação de estilo
-  suficiente sem "criatividade" que invente conteúdo.
+- **Temperatura 0,4** (0,1 no modo Correção gramatical, 0,8 no Expressivo):
+  variação de estilo suficiente sem "criatividade" que invente conteúdo. O
+  Expressivo usa mais variação de propósito e, por isso, exige mais revisão.
+- **Estilo medido sem modelo:** as métricas de `style.py` são contas simples
+  (tamanho das frases, palavras distintas, expressões regulares). A
+  "variedade de vocabulário" é uma aproximação da ideia de perplexidade, não a
+  perplexidade técnica, que exigiria um modelo de linguagem.
 - **Texto do usuário delimitado** por `<texto>…</texto>`, com regras na
   mensagem de sistema, um exemplo demonstrativo e um lembrete após o texto.
   Isso reduz, mas **não elimina**, o risco de o modelo obedecer a instruções
@@ -123,8 +141,7 @@ Abra http://localhost:8501. O Ollama precisa estar ativo (ícone na bandeja ou
 | Interface | `test_app.py` | App abre, reescreve, preserva textos entre interações, repassa o modo, mostra alertas e erros, limpa |
 | Integração | `test_integration.py` | Os 5 modos, números/datas, nomes/siglas, citações, termos técnicos, texto curto, injeção, modelo inexistente, servidor inacessível |
 
-**Última execução (2026-10-20):** 97 unitários/interface aprovados; 13 de
-integração aprovados em 3 execuções seguidas.
+**Última execução (2026-10-21):** 121 unitários/interface e 14 de integração aprovados.
 
 ## Avaliação de qualidade
 
@@ -140,10 +157,16 @@ versões) e um `.md` (original × resultado, para revisão humana). O nome do
 arquivo inclui modelo e `PROMPT_VERSION`. Ao alterar instruções em `modes.py`,
 **incremente `PROMPT_VERSION`**.
 
-Resultado atual: **87% de aprovação** nos critérios objetivos com o modelo
-padrão (v1 do prompt: 76%), ~0,5 s por reescrita e 3,7 GB de VRAM. O
-`qwen3:8b` chegou a **94%**, sem alertas críticos, usando 5,9 GB de VRAM.
-Detalhes em [docs/AVALIACAO.md](docs/AVALIACAO.md).
+Além dos critérios de fidelidade, cada execução registra as métricas de estilo
+por modo (original → resultado).
+
+Resultados (aprovação nos 5 modos originais / no Expressivo):
+
+| Modelo | Aprovação | Velocidade | Memória |
+|---|---|---|---|
+| `qwen3:4b-instruct-2507-q4_K_M` (padrão) | 85% / 61% (prompt v6) | ~0,5 s | 3,7 GB de VRAM |
+| `qwen3:8b` | 96% / 67% (v7) | ~0,8 s | 5,9 GB de VRAM |
+| `qwen3:30b-a3b-instruct-2507-q4_K_M` | 96% / 67% (v7), Gramática 100% | ~2,5 s | 6 GB de VRAM + ~13 GB de RAM | Detalhes em [docs/AVALIACAO.md](docs/AVALIACAO.md).
 
 ## Trocar o modelo
 
@@ -156,8 +179,10 @@ $env:HUMANIZA_MODEL = "<modelo>"
 .\.venv\Scripts\python.exe -m streamlit run app.py
 ```
 
-Para mais qualidade (veja o benchmark), use `qwen3:8b`: `ollama pull qwen3:8b`
-e `$env:HUMANIZA_MODEL = "qwen3:8b"`. O raciocínio de modelos híbridos fica
+Para mais qualidade (veja o benchmark), use `qwen3:8b` (5,2 GB) ou
+`qwen3:30b-a3b-instruct-2507-q4_K_M` (18,6 GB; precisa de ~20 GB livres entre
+VRAM e RAM e é ~3× mais lento que o 8B). Exemplo:
+`ollama pull qwen3:8b` e `$env:HUMANIZA_MODEL = "qwen3:8b"`. O raciocínio de modelos híbridos fica
 desligado por padrão (`HUMANIZA_THINK`).
 
 Outras variáveis: `HUMANIZA_TEMPERATURE`, `HUMANIZA_MAX_OUTPUT_TOKENS`,
@@ -213,6 +238,12 @@ processos `python` e `ollama` foram listadas, e todas eram para `127.0.0.1`.
   Mundial da Saúde). O app avisa.
 - Textos acima do limite (6.000 caracteres por padrão) precisam ser divididos
   manualmente.
+- **O modo Expressivo troca fidelidade por estilo.** Com o modelo de 4B ele
+  já transformou "não foi aprovado" em "foi rejeitado" e trocou palavras-chave
+  por outras mais vagas. O app avisa sobre parte desses casos (negações,
+  números), mas não todos: revise com atenção redobrada.
+- As métricas de estilo medem forma, não qualidade: um texto pode ter frases
+  variadas e nenhum clichê e, ainda assim, estar errado ou mal escrito.
 - Números por extenso compostos ("vinte e cinco") não são reconhecidos pelo validador.
 
 ## Solução de problemas
@@ -234,7 +265,7 @@ tokens gerados, duração e motivo de término de cada geração.
 
 | Componente | Licença |
 |---|---|
-| Qwen3-4B-Instruct-2507 | Apache 2.0 |
+| Qwen3-4B-Instruct-2507, Qwen3-8B, Qwen3-30B-A3B-Instruct-2507 | Apache 2.0 |
 | Ollama | MIT |
 | Streamlit | Apache 2.0 |
 | ollama-python | MIT |
@@ -243,11 +274,12 @@ tokens gerados, duração e motivo de término de cada geração.
 
 ## Roteiro
 
-1. **Benchmark:** medir de novo a latência do `qwen3:8b` com a GPU livre e
-   testar `mistral:7b`, `gemma3:4b` e `llama3.1:8b` com o mesmo conjunto.
-2. **Revisão humana** dos relatórios em `evaluation/results/*.md`.
-3. Controle de intensidade da reescrita e de tamanho desejado.
-4. Divisão automática de textos longos por parágrafo.
-5. Importação de arquivos `.txt`/`.docx`.
-6. Histórico local **opcional**, com consentimento explícito.
-7. Fine-tuning apenas se houver dados adequados e um ganho que justifique o custo.
+1. **Revisão humana** dos relatórios em `evaluation/results/*.md`, principalmente
+   do modo Expressivo.
+2. **Benchmark:** testar `mistral:7b`, `gemma3:4b` e `llama3.1:8b` com o mesmo conjunto.
+3. Sugerir trocas para cada clichê destacado na aba "Estilo".
+4. Controle de intensidade da reescrita (quanto o estilo pode mudar) e de tamanho desejado.
+5. Divisão automática de textos longos por parágrafo.
+6. Importação de arquivos `.txt`/`.docx`.
+7. Histórico local **opcional**, com consentimento explícito.
+8. Fine-tuning apenas se houver dados adequados e um ganho que justifique o custo.
